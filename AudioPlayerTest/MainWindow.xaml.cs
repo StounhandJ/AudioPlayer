@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AudioPlayer;
 
 namespace AudioPlayerTest
 {
@@ -23,7 +24,11 @@ namespace AudioPlayerTest
         public MainWindow()
         {
             InitializeComponent();
-            FG.SourceAudio = "D:\\AllProject\\Ch\\Audio-player\\src\\Rasa.mp3";
+            FG.SetPlayList(new Playlist(new List<Music>
+            {
+                new Music{source = "D:\\AllProject\\Ch\\Audio-player\\src\\Artik.mp3"},
+                new Music{source = "D:\\AllProject\\Ch\\Audio-player\\src\\Rasa.mp3"},
+            }));
         }
     }
 }

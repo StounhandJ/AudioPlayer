@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,15 +25,49 @@ namespace AudioPlayer
     {
         TimeSpan _position;
         DispatcherTimer _timer = new DispatcherTimer();
-        public string SourceAudio { get; set; }
+
+        private Playlist PlayList { get; set; }
+        
+        private MusicViewModel _MusicViewModel = new MusicViewModel();
+        
         public Player()
         {
             InitializeComponent();
+            Initialize();
+        }
+        
+        public Player(Music music)
+        {
+            InitializeComponent();
+            _MusicViewModel.SourceAudio = music.source;
+            Initialize();
+        }
+        
+        public Player(Playlist Playlist)
+        {
+            InitializeComponent();
+            PlayList = Playlist;
+            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             _timer.Interval = TimeSpan.FromMilliseconds(1000);
             _timer.Tick += new EventHandler(ticktock);
             _timer.Start();
-            this.DataContext = this;
+            this.DataContext = _MusicViewModel;
         }
+
+        public void SetPlayList(Playlist Playlist)
+        {
+            PlayList = Playlist;
+            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
+            _timer.Interval = TimeSpan.FromMilliseconds(1000);
+            _timer.Tick += new EventHandler(ticktock);
+            _timer.Start();
+        }
+        
 
         void ticktock(object sender, EventArgs e)
         {
@@ -51,6 +86,24 @@ namespace AudioPlayer
                 PlayerControl.Content = new Image { Source = new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\pause.png")) };
                 media.LoadedBehavior = MediaState.Play;
             }
+        }
+        
+        private void PlayerLast_Click(object sender, RoutedEventArgs e)
+        {
+            _MusicViewModel.SourceAudio = PlayList.Getlast()?.source;
+            PlayerNext.IsEnabled = PlayList.IsNextMusic();
+            PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
+            PlayerLast.IsEnabled = PlayList.IsLastMusic();
+            PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
+        }
+        
+        private void PlayerNext_Click(object sender, RoutedEventArgs e)
+        {
+            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
+            PlayerNext.IsEnabled = PlayList.IsNextMusic();
+            PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
+            PlayerLast.IsEnabled = PlayList.IsLastMusic();
+            PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
         }
 
         private void media_MediaOpened(object sender, RoutedEventArgs e)
@@ -86,6 +139,7 @@ namespace AudioPlayer
 
         private void Vol_MouseEnter(object sender, MouseEventArgs e)
         {
+            var t = media;
             Vol2.Visibility = Visibility.Visible;
             Vol2.IsEnabled = true;
             var test = Vol.IsMouseOver; 
@@ -101,6 +155,18 @@ namespace AudioPlayer
                 Vol2.IsEnabled = false;
             }
           
+        }
+
+        private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (PlayList != null && PlayList.IsNextMusic())
+            {
+                _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
+                PlayerNext.IsEnabled = PlayList.IsNextMusic();
+                PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
+                PlayerLast.IsEnabled = PlayList.IsLastMusic();
+                PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
+            }
         }
     }
 
