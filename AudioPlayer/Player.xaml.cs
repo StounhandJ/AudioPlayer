@@ -39,14 +39,18 @@ namespace AudioPlayer
             sliderSeek.Value = media.Position.TotalSeconds;
         }
 
-        private void Play_Click(object sender, RoutedEventArgs e)
+        private void PlayerControl_Click(object sender, RoutedEventArgs e)
         {
-            media.LoadedBehavior = MediaState.Play;
-        }
-
-        private void Pause_Click(object sender, RoutedEventArgs e)
-        {
-            media.LoadedBehavior = MediaState.Pause;
+            if(media.LoadedBehavior == MediaState.Play)
+            {
+                PlayerControl.Content = new Image { Source= new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\play.png")) };
+                media.LoadedBehavior = MediaState.Pause;
+            }
+            else
+            {
+                PlayerControl.Content = new Image { Source = new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\pause.png")) };
+                media.LoadedBehavior = MediaState.Play;
+            }
         }
 
         private void media_MediaOpened(object sender, RoutedEventArgs e)
@@ -91,7 +95,7 @@ namespace AudioPlayer
         private void Vol_MouseLeave(object sender, MouseEventArgs e)
         {
             var test = Mouse.GetPosition(Vol).Y;
-            if (Mouse.GetPosition(Vol).X<0 || Mouse.GetPosition(Vol).Y > Vol.ActualHeight)
+            if (Mouse.GetPosition(Vol).X<0 || Mouse.GetPosition(Vol).Y > Vol.ActualHeight || Mouse.GetPosition(Vol).X > Vol.ActualWidth)
             {
                 Vol2.Visibility = Visibility.Hidden;
                 Vol2.IsEnabled = false;
