@@ -25,10 +25,7 @@ namespace AudioPlayer
     {
         TimeSpan _position;
         DispatcherTimer _timer = new DispatcherTimer();
-
-        private Playlist PlayList { get; set; }
-        
-        private MusicViewModel _MusicViewModel = new MusicViewModel();
+        private PlayerViewModel _playerViewModel = new PlayerViewModel();
         
         public Player()
         {
@@ -39,33 +36,29 @@ namespace AudioPlayer
         public Player(Music music)
         {
             InitializeComponent();
-            _MusicViewModel.SourceAudio = music.source;
             Initialize();
+            _playerViewModel.SourceAudio = music.source;
         }
         
         public Player(Playlist Playlist)
         {
             InitializeComponent();
-            PlayList = Playlist;
-            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
             Initialize();
-        }
-
-        private void Initialize()
-        {
-            _timer.Interval = TimeSpan.FromMilliseconds(1000);
-            _timer.Tick += new EventHandler(ticktock);
-            _timer.Start();
-            this.DataContext = _MusicViewModel;
+            SetPlayList(Playlist);
         }
 
         public void SetPlayList(Playlist Playlist)
         {
-            PlayList = Playlist;
-            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
-            _timer.Interval = TimeSpan.FromMilliseconds(1000);
+            _playerViewModel.PlayList = Playlist;
+            _playerViewModel.SourceAudio = _playerViewModel.PlayList.GetNext()?.source;
+        }
+        
+        private void Initialize()
+        {
+            _timer.Interval = TimeSpan.FromMilliseconds(500);
             _timer.Tick += new EventHandler(ticktock);
             _timer.Start();
+            this.DataContext = _playerViewModel;
         }
         
 
@@ -74,55 +67,17 @@ namespace AudioPlayer
             sliderSeek.Value = media.Position.TotalSeconds;
         }
 
-        private void PlayerControl_Click(object sender, RoutedEventArgs e)
-        {
-            if(media.LoadedBehavior == MediaState.Play)
-            {
-                PlayerControl.Content = new Image { Source= new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\play.png")) };
-                media.LoadedBehavior = MediaState.Pause;
-            }
-            else
-            {
-                PlayerControl.Content = new Image { Source = new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\pause.png")) };
-                media.LoadedBehavior = MediaState.Play;
-            }
-        }
-        
-        private void PlayerLast_Click(object sender, RoutedEventArgs e)
-        {
-            _MusicViewModel.SourceAudio = PlayList.Getlast()?.source;
-            PlayerNext.IsEnabled = PlayList.IsNextMusic();
-            PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
-            PlayerLast.IsEnabled = PlayList.IsLastMusic();
-            PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
-        }
-        
-        private void PlayerNext_Click(object sender, RoutedEventArgs e)
-        {
-            _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
-            PlayerNext.IsEnabled = PlayList.IsNextMusic();
-            PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
-            PlayerLast.IsEnabled = PlayList.IsLastMusic();
-            PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
-        }
-
-        private void media_MediaOpened(object sender, RoutedEventArgs e)
-        {
-            _position = media.NaturalDuration.TimeSpan;
-            sliderSeek.Minimum = 0;
-            sliderSeek.Maximum = _position.TotalSeconds;
-        }
-
-        private void sliderSeek_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void sliderSeek_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var mainborder = sender as Border;
             double x = e.GetPosition(mainborder).X;
             double val = 1 - (mainborder.ActualWidth - x) / mainborder.ActualWidth;
             int pos = Convert.ToInt32(val * (sliderSeek.Maximum - sliderSeek.Minimum) + sliderSeek.Minimum);
             media.Position = new TimeSpan(0, 0, 0, pos, 0);
+            ticktock(null, null);
         }
 
-        private void sliderVal_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void sliderVol_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var mainborder = sender as Border;
             double x = e.GetPosition(mainborder).X;
@@ -131,24 +86,14 @@ namespace AudioPlayer
             Vol2.Value = pos;
         }
 
-        private void Slider_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            int pos = Convert.ToInt32(sliderSeek.Value);
-            media.Position = new TimeSpan(0, 0, 0, pos, 0);
-        }
-
         private void Vol_MouseEnter(object sender, MouseEventArgs e)
         {
-            var t = media;
             Vol2.Visibility = Visibility.Visible;
             Vol2.IsEnabled = true;
-            var test = Vol.IsMouseOver; 
-            var test2 = StackPanelVol.IsMouseOver;
         }
 
         private void Vol_MouseLeave(object sender, MouseEventArgs e)
         {
-            var test = Mouse.GetPosition(Vol).Y;
             if (Mouse.GetPosition(Vol).X<0 || Mouse.GetPosition(Vol).Y > Vol.ActualHeight || Mouse.GetPosition(Vol).X > Vol.ActualWidth)
             {
                 Vol2.Visibility = Visibility.Hidden;
@@ -157,16 +102,16 @@ namespace AudioPlayer
           
         }
 
+        private void media_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            _position = media.NaturalDuration.TimeSpan;
+            sliderSeek.Minimum = 0;
+            sliderSeek.Maximum = _position.TotalSeconds;
+        }
+        
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
         {
-            if (PlayList != null && PlayList.IsNextMusic())
-            {
-                _MusicViewModel.SourceAudio = PlayList.GetNext()?.source;
-                PlayerNext.IsEnabled = PlayList.IsNextMusic();
-                PlayerNext.Opacity = PlayList.IsNextMusic() ? 1 : 0.5;
-                PlayerLast.IsEnabled = PlayList.IsLastMusic();
-                PlayerLast.Opacity = PlayList.IsLastMusic() ? 1 : 0.5;
-            }
+            _playerViewModel.NextMusic();
         }
     }
 
