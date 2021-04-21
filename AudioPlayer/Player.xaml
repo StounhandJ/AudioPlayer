@@ -18,7 +18,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="105" />
             <ColumnDefinition />
-            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
 
         <MediaElement LoadedBehavior="{Binding MediaLoadedBehavior}" Source="{Binding SourceAudio}" Height="189"
@@ -26,7 +27,7 @@
                       Name="media" VerticalAlignment="Top" Width="399" MediaOpened="media_MediaOpened"
                       MediaEnded="Media_OnMediaEnded" />
 
-        <Slider Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" IsMoveToPointEnabled="True" Name="sliderSeek">
+        <Slider Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" IsMoveToPointEnabled="True" Name="sliderSeek">
             <Slider.Template>
                 <ControlTemplate TargetType="{x:Type Slider}">
                     <Border Background="Silver" Height="30" MouseDown="sliderSeek_MouseDown">
@@ -53,7 +54,7 @@
                     Opacity="{Binding PlayerLastOpacity}" Command="{Binding PlayerLast_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
-                    <Image Source="D:\AllProject\Ch\AudioPlayer\AudioPlayer\img\last.png" />
+                    <Image Source="img/last.png" />
                 </Button.Content>
             </Button>
             <Button Name="PlayerControl" Content="{Binding PlayerControlImage}" Command="{Binding PlayerControl_Click}"
@@ -63,25 +64,28 @@
                     Opacity="{Binding PlayerNextOpacity}" Command="{Binding PlayerNext_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
-                    <Image Source="D:\AllProject\Ch\AudioPlayer\AudioPlayer\img\next.png" />
+                    <Image Source="img/next.png" />
                 </Button.Content>
             </Button>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1" Height="30">
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="1" Height="30">
         <Button Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
+                FontSize="20" Margin="2" BorderThickness="0"
+                Background="Transparent" />
+        <Button Foreground="{Binding PlayerRandomForeground}" Name="PlayerRandom" Content="⤮" Command="{Binding PlayerRandom_Click}"
                 FontSize="20" Margin="2" BorderThickness="0"
                 Background="Transparent" />
         </StackPanel>
 
-        <Grid Name="StackPanelVol" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="0.4,-118,0,0.2">
+        <Grid Name="StackPanelVol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0.4,-118,0,0.2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Slider Grid.Row="0" x:Name="Vol2" TickFrequency="0.1" Visibility="Hidden" IsEnabled="False"
                     IsMoveToPointEnabled="True" Maximum="1" Minimum="0"
-                    Value="{Binding Volume, ElementName=media, Mode=TwoWay}" Margin="0,112,-41,-9.2" Grid.RowSpan="2"
+                    Value="{Binding Volume, ElementName=media, Mode=TwoWay}" Margin="-12,114,-29.8,-11.2" Grid.RowSpan="2"
                     MouseLeave="Vol_MouseLeave">
                 <Slider.RenderTransform>
                     <RotateTransform Angle="270" />

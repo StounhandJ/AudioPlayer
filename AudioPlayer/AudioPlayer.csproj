@@ -91,5 +91,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\last.png" />
+    <Resource Include="img\next.png" />
+    <Resource Include="img\pause.png" />
+    <Resource Include="img\play.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

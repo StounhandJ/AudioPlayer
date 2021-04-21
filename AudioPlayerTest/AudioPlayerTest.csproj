@@ -100,5 +100,11 @@
       <Name>AudioPlayer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="audioTest\Artik.mp3" />
+    <Resource Include="audioTest\MATRANG.mp3" />
+    <Resource Include="audioTest\Rakhim.mp3" />
+    <Resource Include="audioTest\Rasa.mp3" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

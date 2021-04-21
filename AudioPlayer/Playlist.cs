@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AudioPlayer
 {
     public class Playlist
     {
         private List<Music> musics { get; set; }
+        
+        private List<Music> list { get; set; }
         
         public string name { get; set; }
 
@@ -13,6 +16,7 @@ namespace AudioPlayer
         public Playlist(List<Music> PlayList)
         {
             musics = PlayList;
+            list = musics;
             index = -1;
         }
 
@@ -21,12 +25,40 @@ namespace AudioPlayer
             musics.Add(music);
         }
 
+        public void RandomPlayList()
+        {
+            index = -1;
+            Random random = new Random();
+            var data = new List<Music>();
+            foreach (var s in musics)
+            {
+                int j = random.Next(data.Count + 1);
+                if (j == data.Count)
+                {
+                    data.Add(s);
+                }
+                else
+                {
+                    data.Add(data[j]);
+                    data[j] = s;
+                }
+            }
+
+            list = data;
+        }
+        
+        public void StandartPlayList()
+        {
+            index = -1;
+            list = musics;
+        }
+
         public Music? GetNext()
         {
-            if (index<musics.Count-1)
+            if (index<list.Count-1)
             {
                 index += 1;
-                var t = musics[index];
+                var t = list[index];
                 return t;
             }
 
@@ -38,7 +70,7 @@ namespace AudioPlayer
             if (index>0)
             {
                 index -= 1;
-                var t = musics[index];
+                var t = list[index];
                 return t;
             }
 
@@ -47,12 +79,12 @@ namespace AudioPlayer
         
         public Music? GetNow()
         {
-            return musics[index];
+            return list[index];
         }
 
         public bool IsNextMusic()
         {
-            return index < musics.Count-1;
+            return index < list.Count-1;
         }
         
         public bool IsLastMusic()

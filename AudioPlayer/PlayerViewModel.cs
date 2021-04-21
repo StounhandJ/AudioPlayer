@@ -11,6 +11,8 @@ namespace AudioPlayer
     public class PlayerViewModel : ViewModelBase
     {
         private bool _replay = false;
+        
+        private bool _random = false;
         private Playlist _playList { get; set; }
         public Playlist PlayList
         {
@@ -43,12 +45,19 @@ namespace AudioPlayer
             }
         }
         
-        private SolidColorBrush _playerReplayForeground { get; set; }
         public SolidColorBrush PlayerReplayForeground 
         {
             get
             {
                 return (SolidColorBrush)(new BrushConverter().ConvertFrom(_replay?"#fc0":"#000000"));
+            }
+        }
+        
+        public SolidColorBrush PlayerRandomForeground 
+        {
+            get
+            {
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom(_random?"#fc0":"#000000"));
             }
         }
 
@@ -68,7 +77,7 @@ namespace AudioPlayer
             }
         }
         
-        private Image _playerControlImage = new Image { Source = new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\img\\pause.png"))};
+        private Image _playerControlImage = new Image { Source = new BitmapImage(new Uri("img/pause.png", UriKind.Relative))};
         public Image PlayerControlImage
         {
             get
@@ -144,6 +153,28 @@ namespace AudioPlayer
                 });
             }
         }
+
+        public ICommand PlayerRandom_Click
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    if (_random)
+                    {
+                        _playList.StandartPlayList();
+                    }
+                    else
+                    {
+                        _playList.RandomPlayList();
+                    }
+
+                    SourceAudio = _playList.GetNext()?.source;
+                    _random = !_random;
+                    RaisePropertyChanged(()=>PlayerRandomForeground);
+                });
+            }
+        }
         
         public ICommand PlayerControl_Click
         {
@@ -153,12 +184,12 @@ namespace AudioPlayer
                 {
                     if(MediaLoadedBehavior == MediaState.Play)
                     {
-                        PlayerControlImage = new Image { Source= new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\img\\play.png")) };
+                        PlayerControlImage = new Image { Source= new BitmapImage(new Uri("img/play.png", UriKind.Relative)) };
                         MediaLoadedBehavior = MediaState.Pause;
                     }
                     else
                     {
-                        PlayerControlImage = new Image { Source = new BitmapImage(new Uri("D:\\AllProject\\Ch\\AudioPlayer\\AudioPlayer\\img\\pause.png")) };
+                        PlayerControlImage = new Image { Source = new BitmapImage(new Uri("img/pause.png", UriKind.Relative)) };
                         MediaLoadedBehavior = MediaState.Play;
                     }
                 });
