@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>StounhandJ.AudioPlayer</id>
-    <version>0.4.2</version>
+    <version>0.5.1</version>
     <title>AudioPlayer</title>
     <authors>StounhandJ</authors>
     <owners></owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.errlog.io/images/errlog_dark_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Audio player with a stylish Design</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Time conversion, visual changes</releaseNotes>
     <copyright></copyright>
     <tags>MediaElement</tags>
     <dependencies>

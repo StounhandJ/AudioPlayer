@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <local:SliderValueConverter x:Key="sliderValueConverter" />
+        <local:TimeConverter x:Key="timeConverter" />
         <ControlTemplate x:Key="NoMouseOverButtonTemplate" 
                          TargetType="Button">
             <Border Background="{TemplateBinding Background}"
@@ -16,9 +17,9 @@
                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
             </Border>
-            
+
         </ControlTemplate>
-        
+
         <Style x:Key="StyleMouseOver085" TargetType="Button">
             <Setter Property="Opacity" Value="0.85"/>
             <Style.Triggers>
@@ -27,14 +28,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="StyleMouseOver07" TargetType="Button">
-                <Setter Property="Opacity" Value="0.7"/>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Trigger>
-                </Style.Triggers>
+            <Setter Property="Opacity" Value="0.7"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -55,7 +56,7 @@
                       Name="media" VerticalAlignment="Top" Width="399" MediaOpened="media_MediaOpened"
                       MediaEnded="Media_OnMediaEnded" />
 
-        <Slider Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" IsMoveToPointEnabled="True" Name="sliderSeek">
+        <Slider MouseEnter="SliderSeek_OnMouseEnter" MouseLeave="SliderSeek_OnMouseLeave" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" IsMoveToPointEnabled="True" Name="sliderSeek">
             <Slider.Template>
                 <ControlTemplate TargetType="{x:Type Slider}">
                     <Border Background="Silver" Height="30" MouseDown="sliderSeek_MouseDown">
@@ -73,8 +74,8 @@
                 </ControlTemplate>
             </Slider.Template>
         </Slider>
-        <TextBlock IsHitTestVisible="False" Grid.Row="0" Grid.Column="0" IsEnabled="False"
-                   Text="{Binding ElementName=sliderSeek, Path=Value, StringFormat=0}" VerticalAlignment="Center"
+        <TextBlock Name="sliderSeekTIME" Visibility="Hidden" IsHitTestVisible="False" Grid.Row="0" Grid.Column="0" IsEnabled="False"
+                   Text="{Binding Value, ElementName=sliderSeek, Converter={StaticResource timeConverter}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
                    Margin="0,0,79.8,39.2" Grid.RowSpan="2" />
 
         <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.Row="1" Height="30">
@@ -98,7 +99,7 @@
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver085}" Name="PlayerControl" Content="{Binding PlayerControlImage}" Command="{Binding PlayerControl_Click}"
                     FontSize="20" Margin="2" BorderThickness="0"
                     Background="Transparent" />
-            
+
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Name="PlayerNext" FontSize="20" Margin="2" IsEnabled="{Binding PlayerNextEnabled}"
                     Command="{Binding PlayerNext_Click}" BorderThickness="0"
                     Background="Transparent">
@@ -117,7 +118,7 @@
                 </Button.Style>
             </Button>
         </StackPanel>
-        
+
         <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="1" Height="30">
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
                     FontSize="25" BorderThickness="0"
@@ -132,9 +133,14 @@
                 <RowDefinition />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
+            <Rectangle Name="VolRectangle" Fill="#fff" Grid.Row="0" Visibility="Hidden" IsEnabled="False" Margin="10,0,10.2,28.8">
+                <Rectangle.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="20"  ShadowDepth="2" Opacity="0.5" Direction="-230"/>
+                </Rectangle.Effect>
+            </Rectangle>
             <Slider Grid.Row="0" x:Name="Vol2" TickFrequency="0.1" Visibility="Hidden" IsEnabled="False"
                     IsMoveToPointEnabled="True" Maximum="1" Minimum="0"
-                    Value="{Binding Volume, ElementName=media, Mode=TwoWay}" Margin="-12,114,-29.8,-11.2" Grid.RowSpan="2"
+                    Value="{Binding Volume, ElementName=media, Mode=TwoWay}" Margin="19,99,-61.8,22.8"
                     MouseLeave="Vol_MouseLeave">
                 <Slider.RenderTransform>
                     <RotateTransform Angle="270" />
@@ -157,10 +163,25 @@
                 </Slider.Template>
             </Slider>
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Grid.Row="1" x:Name="Vol" Content="🔊" BorderThickness="0" Background="Transparent"
-                    MouseEnter="Vol_MouseEnter" MouseLeave="Vol_MouseLeave" >
-                
+                    MouseEnter="Vol_MouseEnter" MouseLeave="Vol_MouseLeave" Click="Vol_OnClick">
+
             </Button>
         </Grid>
-
+        <Canvas Grid.Row="0" Grid.Column="0" IsEnabled="False">
+        <Grid x:Name="TopTime" Canvas.Left="77" Canvas.Top="-40" Visibility="Hidden">
+            <Rectangle Fill="#fff" Margin="0,0,-5,0" RadiusX="2" RadiusY="2">
+                <Rectangle.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="22"  ShadowDepth="8" Opacity="0.4" Direction="250"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="#fff" Margin="19,30,9.6,-29.2">
+                <Rectangle.RenderTransform>
+                    <RotateTransform Angle="230" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <TextBlock IsHitTestVisible="False" IsEnabled="False" FontSize="12"
+                   Text="{Binding Value, ElementName=sliderSeek, Converter={StaticResource timeConverter}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="10,4,5,5"/>
+        </Grid>
+        </Canvas>
     </Grid>
 </UserControl>
