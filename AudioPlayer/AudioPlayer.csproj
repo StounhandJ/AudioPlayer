@@ -56,12 +56,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music.cs" />
-    <Compile Include="PlayerViewModel.cs" />
-    <Compile Include="Player.xaml.cs">
-      <DependentUpon>Player.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Playlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +69,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="src\Class\Music.cs" />
+    <Compile Include="src\Class\Playlist.cs" />
+    <Compile Include="src\Player.xaml.cs">
+      <DependentUpon>Player.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ViewModels\PlayerViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -86,16 +86,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Player.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="img\last.png" />
     <Resource Include="img\next.png" />
     <Resource Include="img\pause.png" />
     <Resource Include="img\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="src\Player.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

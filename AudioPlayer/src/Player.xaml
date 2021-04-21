@@ -82,7 +82,7 @@
                     Command="{Binding PlayerLast_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
-                    <Image Source="img/last.png" />
+                    <Image Source="../img/last.png" />
                 </Button.Content>
                 <Button.Style>
                     <Style TargetType="Button">
@@ -103,7 +103,7 @@
                     Command="{Binding PlayerNext_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
-                    <Image Source="img/next.png" />
+                    <Image Source="../img/next.png" />
                 </Button.Content>
                 <Button.Style>
                     <Style TargetType="Button">

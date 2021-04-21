@@ -77,7 +77,7 @@ namespace AudioPlayer
             }
         }
         
-        private Image _playerControlImage = new Image { Source = new BitmapImage(new Uri("img/pause.png", UriKind.Relative))};
+        private Image _playerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative))};
         public Image PlayerControlImage
         {
             get
@@ -184,12 +184,12 @@ namespace AudioPlayer
                 {
                     if(MediaLoadedBehavior == MediaState.Play)
                     {
-                        PlayerControlImage = new Image { Source= new BitmapImage(new Uri("img/play.png", UriKind.Relative)) };
+                        PlayerControlImage = new Image { Source= new BitmapImage(new Uri("../img/play.png", UriKind.Relative)) };
                         MediaLoadedBehavior = MediaState.Pause;
                     }
                     else
                     {
-                        PlayerControlImage = new Image { Source = new BitmapImage(new Uri("img/pause.png", UriKind.Relative)) };
+                        PlayerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative)) };
                         MediaLoadedBehavior = MediaState.Play;
                     }
                 });
