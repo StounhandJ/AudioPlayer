@@ -111,7 +111,7 @@ namespace AudioPlayer
         
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
         {
-            _playerViewModel.NextMusic();
+            _playerViewModel.NextMusicAuto();
         }
     }
 

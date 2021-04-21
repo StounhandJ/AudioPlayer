@@ -44,6 +44,11 @@ namespace AudioPlayer
 
             return null;
         }
+        
+        public Music? GetNow()
+        {
+            return musics[index];
+        }
 
         public bool IsNextMusic()
         {

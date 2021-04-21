@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 
@@ -9,6 +10,7 @@ namespace AudioPlayer
 {
     public class PlayerViewModel : ViewModelBase
     {
+        private bool _replay = false;
         private Playlist _playList { get; set; }
         public Playlist PlayList
         {
@@ -38,6 +40,15 @@ namespace AudioPlayer
 
                 _sourceAudio = value;
                 update();
+            }
+        }
+        
+        private SolidColorBrush _playerReplayForeground { get; set; }
+        public SolidColorBrush PlayerReplayForeground 
+        {
+            get
+            {
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom(_replay?"#fc0":"#000000"));
             }
         }
 
@@ -122,6 +133,18 @@ namespace AudioPlayer
             }
         }
         
+        public ICommand PlayerReplay_Click
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    _replay = !_replay;
+                    RaisePropertyChanged(()=>PlayerReplayForeground);
+                });
+            }
+        }
+        
         public ICommand PlayerControl_Click
         {
             get
@@ -139,6 +162,19 @@ namespace AudioPlayer
                         MediaLoadedBehavior = MediaState.Play;
                     }
                 });
+            }
+        }
+        
+        public void NextMusicAuto()
+        {
+            if (_replay)
+            {
+                SourceAudio = "";
+                SourceAudio = _playList.GetNow()?.source;
+            }
+            else if (_playList != null && _playList.IsNextMusic())
+            {
+                SourceAudio = _playList.GetNext()?.source;
             }
         }
 
@@ -164,6 +200,7 @@ namespace AudioPlayer
             RaisePropertyChanged(()=>PlayerNextOpacity);
             RaisePropertyChanged(()=>PlayerLastOpacity);
             RaisePropertyChanged(()=>MediaLoadedBehavior);
+            RaisePropertyChanged(()=>PlayerReplayForeground);
             RaisePropertyChanged(()=>SourceAudio);
         }
 
