@@ -8,6 +8,34 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <local:SliderValueConverter x:Key="sliderValueConverter" />
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate" 
+                         TargetType="Button">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+            
+        </ControlTemplate>
+        
+        <Style x:Key="StyleMouseOver085" TargetType="Button">
+            <Setter Property="Opacity" Value="0.85"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="StyleMouseOver07" TargetType="Button">
+                <Setter Property="Opacity" Value="0.7"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="1"/>
+                    </Trigger>
+                </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -50,32 +78,53 @@
                    Margin="0,0,79.8,39.2" Grid.RowSpan="2" />
 
         <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.Row="1" Height="30">
-            <Button Name="PlayerLast" FontSize="20" Margin="2" IsEnabled="{Binding PlayerLastEnabled}"
-                    Opacity="{Binding PlayerLastOpacity}" Command="{Binding PlayerLast_Click}" BorderThickness="0"
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Name="PlayerLast" FontSize="20" Margin="2" IsEnabled="{Binding PlayerLastEnabled}"
+                    Command="{Binding PlayerLast_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
                     <Image Source="img/last.png" />
                 </Button.Content>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="{Binding PlayerLastOpacity}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
-            <Button Name="PlayerControl" Content="{Binding PlayerControlImage}" Command="{Binding PlayerControl_Click}"
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver085}" Name="PlayerControl" Content="{Binding PlayerControlImage}" Command="{Binding PlayerControl_Click}"
                     FontSize="20" Margin="2" BorderThickness="0"
                     Background="Transparent" />
-            <Button Name="PlayerNext" FontSize="20" Margin="2" IsEnabled="{Binding PlayerNextEnabled}"
-                    Opacity="{Binding PlayerNextOpacity}" Command="{Binding PlayerNext_Click}" BorderThickness="0"
+            
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Name="PlayerNext" FontSize="20" Margin="2" IsEnabled="{Binding PlayerNextEnabled}"
+                    Command="{Binding PlayerNext_Click}" BorderThickness="0"
                     Background="Transparent">
                 <Button.Content>
                     <Image Source="img/next.png" />
                 </Button.Content>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="{Binding PlayerNextOpacity}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
         </StackPanel>
         
         <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="1" Height="30">
-        <Button Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
-                FontSize="20" Margin="2" BorderThickness="0"
-                Background="Transparent" />
-        <Button Foreground="{Binding PlayerRandomForeground}" Name="PlayerRandom" Content="⤮" Command="{Binding PlayerRandom_Click}"
-                FontSize="20" Margin="2" BorderThickness="0"
-                Background="Transparent" />
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
+                    FontSize="25" BorderThickness="0"
+                    Background="Transparent" Margin="0,-4,0,0.4" />
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerRandomForeground}" x:Name="PlayerRandom" Content="⤮" Command="{Binding PlayerRandom_Click}"
+                    FontSize="30" BorderThickness="0"
+                    Background="Transparent" Margin="0,-9,0,0.4" Width="25" />
         </StackPanel>
 
         <Grid Name="StackPanelVol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0.4,-118,0,0.2">
@@ -107,8 +156,10 @@
                     </ControlTemplate>
                 </Slider.Template>
             </Slider>
-            <Button Grid.Row="1" x:Name="Vol" Content="🔊" BorderThickness="0" Background="Transparent"
-                    MouseEnter="Vol_MouseEnter" MouseLeave="Vol_MouseLeave" />
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Grid.Row="1" x:Name="Vol" Content="🔊" BorderThickness="0" Background="Transparent"
+                    MouseEnter="Vol_MouseEnter" MouseLeave="Vol_MouseLeave" >
+                
+            </Button>
         </Grid>
 
     </Grid>
