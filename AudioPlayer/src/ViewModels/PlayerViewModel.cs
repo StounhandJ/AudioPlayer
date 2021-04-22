@@ -29,8 +29,8 @@ namespace AudioPlayer
             }
         }
 
-        private string _sourceAudio { get; set; }
-        public string SourceAudio 
+        private Uri _sourceAudio { get; set; }
+        public Uri SourceAudio 
         {
             get
             {
@@ -242,9 +242,10 @@ namespace AudioPlayer
 
         public void SetMusic(Music? music)
         {
-            SourceAudio = music?.source ?? "";
+            SourceAudio = music?.source ?? new Uri("");
+            string fileName = SourceAudio.Segments.Length > 0 && SourceAudio.IsFile ? SourceAudio.Segments[SourceAudio.Segments.Length-1].Split('.')[0] : null;
             ImageAudio = music?.sourceImg ?? _noImageAudio;
-            NameAudio = music?.name ?? _noNameAudio;
+            NameAudio = music?.name ?? (fileName??_noNameAudio);
         }
         
         public void NextMusicAuto()
