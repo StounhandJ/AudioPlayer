@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>StounhandJ.AudioPlayer</id>
-    <version>0.5.1</version>
+    <version>0.8.4</version>
     <title>AudioPlayer</title>
     <authors>StounhandJ</authors>
     <owners></owners>
@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/StounhandJ/AudioPlayer</projectUrl>
     <iconUrl>https://www.errlog.io/images/errlog_dark_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Audio player with a stylish Design</description>
-    <releaseNotes>Time conversion, visual changes</releaseNotes>
+    <description>Built-in audio player, with full access to the settings of the user and the developer. Support for Internet resources.</description>
+    <releaseNotes>The finished version, there is still a revision</releaseNotes>
     <copyright></copyright>
     <tags>MediaElement</tags>
     <dependencies>
