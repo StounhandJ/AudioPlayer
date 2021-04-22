@@ -114,7 +114,7 @@ namespace AudioPlayer
         {
             get
             {
-                return PlayList.IsNextMusic() ? 0.85 : 0.5;
+                return PlayList.IsNextMusic() ? 0.85 : 0.4;
             }
         }
         
@@ -122,7 +122,7 @@ namespace AudioPlayer
         {
             get
             {
-                return PlayList.IsLastMusic() ? 0.85 : 0.5;
+                return PlayList.IsLastMusic() ? 0.85 : 0.4;
             }
         }
 

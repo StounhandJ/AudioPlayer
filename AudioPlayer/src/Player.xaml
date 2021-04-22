@@ -133,7 +133,7 @@
                 <RowDefinition />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <Rectangle Name="VolRectangle" Fill="#fff" Grid.Row="0" Visibility="Hidden" IsEnabled="False" Margin="10,0,10.2,28.8">
+            <Rectangle Name="VolRectangle" RadiusX="2" RadiusY="2" Fill="#fff" Grid.Row="0" Visibility="Hidden" IsEnabled="False" Margin="10,0,10.2,28.8">
                 <Rectangle.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="20"  ShadowDepth="2" Opacity="0.5" Direction="-230"/>
                 </Rectangle.Effect>
@@ -179,8 +179,7 @@
                     <RotateTransform Angle="230" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <TextBlock IsHitTestVisible="False" IsEnabled="False" FontSize="12"
-                   Text="{Binding Value, ElementName=sliderSeek, Converter={StaticResource timeConverter}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="10,4,5,5"/>
+            <TextBlock Name="TopTimeTextBlock" IsHitTestVisible="False" IsEnabled="False" FontSize="12" VerticalAlignment="Center" Margin="10,4,5,5"/>
         </Grid>
         </Canvas>
     </Grid>

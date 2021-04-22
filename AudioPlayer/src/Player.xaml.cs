@@ -28,6 +28,7 @@ namespace AudioPlayer
         DispatcherTimer _timer = new DispatcherTimer();
         DispatcherTimer _timerTwo = new DispatcherTimer();
         private PlayerViewModel _playerViewModel = new PlayerViewModel();
+        private TimeConverter _timeConverter = new TimeConverter();
         
         public Player()
         {
@@ -71,9 +72,8 @@ namespace AudioPlayer
 
         private void sliderSeek_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var mainborder = sender as Border;
-            double x = e.GetPosition(mainborder).X;
-            double val = 1 - (mainborder.ActualWidth - x) / mainborder.ActualWidth;
+            double x = e.GetPosition(sliderSeek).X;
+            double val = 1 - (sliderSeek.ActualWidth - x) / sliderSeek.ActualWidth;
             int pos = Convert.ToInt32(val * (sliderSeek.Maximum - sliderSeek.Minimum) + sliderSeek.Minimum);
             media.Position = new TimeSpan(0, 0, 0, pos, 0);
             ticktock(null, null);
@@ -81,9 +81,8 @@ namespace AudioPlayer
 
         private void sliderVol_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var mainborder = sender as Border;
-            double x = e.GetPosition(mainborder).X;
-            double val = 1 - (mainborder.ActualWidth - x) / mainborder.ActualWidth;
+            double x = e.GetPosition(Vol2).X;
+            double val = 1 - (Vol2.ActualWidth - x) / Vol2.ActualWidth;
             double pos = Convert.ToDouble(val * (Vol2.Maximum - Vol2.Minimum) + Vol2.Minimum);
             Vol2.Value = pos;
         }
@@ -134,6 +133,10 @@ namespace AudioPlayer
 
         private void moveTopTime(object sender, EventArgs e)
         {
+            double x = Mouse.GetPosition(this).X;
+            double val = 1 - (sliderSeek.ActualWidth - x) / sliderSeek.ActualWidth;
+            int pos = Convert.ToInt32(val * (sliderSeek.Maximum - sliderSeek.Minimum) + sliderSeek.Minimum);
+            TopTimeTextBlock.Text = _timeConverter.TimeFormat(pos);
             Canvas.SetLeft(TopTime,Mouse.GetPosition(this).X-TopTime.ActualWidth/2);
         }
         private void SliderSeek_OnMouseEnter(object sender, MouseEventArgs e)
@@ -176,15 +179,20 @@ namespace AudioPlayer
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var time = (int)Math.Round((double) value);
-            string seconds = (time % 60).ToString();
-            seconds = seconds.Length < 2 ? "0" + seconds : seconds;
-            return $"{time / 60}:{seconds}";
+            return TimeFormat((double) value);
         }
      
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;
-        }  
+        }
+
+        public string TimeFormat(double value)
+        {
+            var time = (int)Math.Round(value);
+            string seconds = (time % 60).ToString();
+            seconds = seconds.Length < 2 ? "0" + seconds : seconds;
+            return $"{time / 60}:{seconds}";
+        }
     }
 }
