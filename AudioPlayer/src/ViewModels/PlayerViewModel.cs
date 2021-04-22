@@ -262,6 +262,7 @@ namespace AudioPlayer
         {
             if (_replay)
             {
+                SourceAudio = null;
                 SetMusic(_playList.GetNow());
             }
             else if (_playList != null && _playList.IsNextMusic())
