@@ -1,6 +1,6 @@
 ﻿# AudioPlayer
 
-Standalone Wpf color picker
+Built-in audio player, with full access to the settings of the user and the developer. Support for Internet resources.
 
 [![](doc/Player.gif)](https://www.nuget.org/packages/StounhandJ.AudioPlayer/)
 
