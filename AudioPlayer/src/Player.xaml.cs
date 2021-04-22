@@ -71,6 +71,11 @@ namespace AudioPlayer
         {
             _playerViewModel.RunPlay();
         }
+
+        public void SetVolume(int volume)
+        {
+            Vol2.Value = volume >= 0 && volume <= 1 ? volume : Vol2.Value;
+        }
         
         public void NextMusic()
         {
