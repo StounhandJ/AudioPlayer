@@ -91,6 +91,16 @@ namespace AudioPlayer
         {
             _playerViewModel.RandomPlayList(button:false);
         }
+
+        public void StartReplay()
+        {
+            _playerViewModel.ChangeReplay(true);
+        }
+        
+        public void StopReplay()
+        {
+            _playerViewModel.ChangeReplay(false);
+        }
         
         public void AddMusic_PlayList(Music music)
         {

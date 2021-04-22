@@ -182,8 +182,7 @@ namespace AudioPlayer
             {
                 return new DelegateCommand(() =>
                 {
-                    _replay = !_replay;
-                    RaisePropertyChanged(()=>PlayerReplayForeground);
+                    ChangeReplay(!_replay);
                 });
             }
         }
@@ -227,6 +226,12 @@ namespace AudioPlayer
         {
             PlayerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative)) };
             MediaLoadedBehavior = MediaState.Play;
+        }
+
+        public void ChangeReplay(bool replay)
+        {
+            _replay = replay;
+            RaisePropertyChanged(()=>PlayerReplayForeground);
         }
 
         public void RandomPlayList(bool button = true)
