@@ -194,18 +194,7 @@ namespace AudioPlayer
             {
                 return new DelegateCommand(() =>
                 {
-                    if (_random)
-                    {
-                        _playList.StandartPlayList();
-                    }
-                    else
-                    {
-                        _playList.RandomPlayList();
-                    }
-
-                    SetMusic(_playList.GetNext());
-                    _random = !_random;
-                    RaisePropertyChanged(()=>PlayerRandomForeground);
+                    RandomPlayList();
                 });
             }
         }
@@ -238,6 +227,22 @@ namespace AudioPlayer
         {
             PlayerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative)) };
             MediaLoadedBehavior = MediaState.Play;
+        }
+
+        public void RandomPlayList(bool button = true)
+        {
+            if (_random && button)
+            {
+                _playList.StandartPlayList();
+            }
+            else
+            {
+                _playList.RandomPlayList();
+            }
+
+            SetMusic(_playList.GetNext());
+            _random = !_random;
+            RaisePropertyChanged(()=>PlayerRandomForeground);
         }
 
         public void SetMusic(Music? music)

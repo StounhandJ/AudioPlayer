@@ -82,6 +82,11 @@ namespace AudioPlayer
             _playerViewModel.LastMusic();
         }
         
+        public void MixPlayList()
+        {
+            _playerViewModel.RandomPlayList(button:false);
+        }
+        
         public void AddMusic_PlayList(Music music)
         {
             if (_playerViewModel.PlayList!=null)
