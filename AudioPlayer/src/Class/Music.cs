@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace AudioPlayer
 {
@@ -6,5 +7,6 @@ namespace AudioPlayer
     {
         public string source { get; set; }
         public string name { get; set; }
+        public Uri sourceImg { get; set; }
     }
 }

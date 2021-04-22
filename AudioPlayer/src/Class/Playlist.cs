@@ -24,6 +24,34 @@ namespace AudioPlayer
         {
             musics.Add(music);
         }
+        
+        public void Del(Music music)
+        {
+            musics.Remove(music);
+        }
+        
+        public bool SetIndex(int indexI)
+        {
+            if (indexI>0 && indexI<list.Count-1)
+            {
+                index = indexI - 1;
+                return true;
+            }
+
+            return false;
+        }
+        
+        public bool SetMusic(Music musci)
+        {
+            int indexI = list.IndexOf(musci);
+            if (indexI>0)
+            {
+                index = indexI-1;
+                return true;
+            }
+
+            return false;
+        }
 
         public void RandomPlayList()
         {

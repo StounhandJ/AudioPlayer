@@ -40,7 +40,7 @@ namespace AudioPlayer
         {
             InitializeComponent();
             Initialize();
-            _playerViewModel.SourceAudio = music.source;
+            _playerViewModel.SetMusic(music);
         }
         
         public Player(Playlist Playlist)
@@ -53,7 +53,67 @@ namespace AudioPlayer
         public void SetPlayList(Playlist Playlist)
         {
             _playerViewModel.PlayList = Playlist;
-            _playerViewModel.SourceAudio = _playerViewModel.PlayList.GetNext()?.source;
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+        }
+        
+        public void SetMusic(Music music)
+        {
+            _playerViewModel.PlayList = new Playlist(new List<Music>{music});
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+        }
+
+        public void Stop()
+        {
+            _playerViewModel.StopPlay();
+        }
+        
+        public void Play()
+        {
+            _playerViewModel.RunPlay();
+        }
+        
+        public void NextMusic()
+        {
+            _playerViewModel.NextMusic();
+        }
+
+        public void LastMusic()
+        {
+            _playerViewModel.LastMusic();
+        }
+        
+        public void AddMusic_PlayList(Music music)
+        {
+            if (_playerViewModel.PlayList!=null)
+            {
+                _playerViewModel.PlayList.Add(music);
+            }
+            else
+            {
+                _playerViewModel.PlayList = new Playlist(new List<Music>{music});
+            }
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+        }
+        
+        public void RemoveMusic_PlayList(Music music)
+        {
+            _playerViewModel.PlayList?.Del(music);
+        }
+        
+        public void PickNumberMusic_PlayList(int index)
+        {
+            if (_playerViewModel.PlayList!=null && _playerViewModel.PlayList.SetIndex(index))
+            {
+                _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+            }
+        }
+        
+        public void PickMusic_PlayList(Music music)
+        {
+            if (_playerViewModel.PlayList!=null && _playerViewModel.PlayList.SetMusic(music))
+            {
+                _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+            }
         }
         
         private void Initialize()

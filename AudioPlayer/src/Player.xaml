@@ -46,6 +46,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="105" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition />
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="50" />
@@ -56,7 +57,7 @@
                       Name="media" VerticalAlignment="Top" Width="399" MediaOpened="media_MediaOpened"
                       MediaEnded="Media_OnMediaEnded" />
 
-        <Slider MouseEnter="SliderSeek_OnMouseEnter" MouseLeave="SliderSeek_OnMouseLeave" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" IsMoveToPointEnabled="True" Name="sliderSeek">
+        <Slider MouseEnter="SliderSeek_OnMouseEnter" MouseLeave="SliderSeek_OnMouseLeave" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" IsMoveToPointEnabled="True" Name="sliderSeek">
             <Slider.Template>
                 <ControlTemplate TargetType="{x:Type Slider}">
                     <Border Background="Silver" Height="30" MouseDown="sliderSeek_MouseDown">
@@ -119,7 +120,12 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="1" Height="30">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Image Source="{Binding ImageAudio}" Width="60" Height="35"></Image>
+            <TextBlock Text="{Binding NameAudio}" FontSize="20"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Column="3" Orientation="Horizontal" Grid.Row="1" Height="30">
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
                     FontSize="25" BorderThickness="0"
                     Background="Transparent" Margin="0,-4,0,0.4" />
@@ -128,7 +134,7 @@
                     Background="Transparent" Margin="0,-9,0,0.4" Width="25" />
         </StackPanel>
 
-        <Grid Name="StackPanelVol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0.4,-118,0,0.2">
+        <Grid Name="StackPanelVol" Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Margin="0.4,-118,0,0.2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="40" />

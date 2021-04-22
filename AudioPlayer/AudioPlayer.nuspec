@@ -24,5 +24,6 @@
     <file src="img/play.png" target="" />
     <file src="img/next.png" target="" />
     <file src="img/last.png" target="" />
+    <file src="img/noavatar.jpg" target="" />
   </files>
 </package>

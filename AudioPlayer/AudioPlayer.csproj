@@ -90,6 +90,7 @@
     <Resource Include="img\next.png" />
     <Resource Include="img\pause.png" />
     <Resource Include="img\play.png" />
+    <Resource Include="img\noavatar.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\Player.xaml">

@@ -45,6 +45,40 @@ namespace AudioPlayer
             }
         }
         
+        private Uri _noImageAudio = new Uri("../img/noavatar.jpg", UriKind.Relative);
+        private Uri _imageAudio = new Uri("../img/noavatar.jpg", UriKind.Relative);
+        public Uri ImageAudio
+        {
+            get
+            {
+                return _imageAudio;
+            }
+            set 
+            {
+                if (_imageAudio == value) return;
+
+                _imageAudio = value;
+                RaisePropertyChanged(()=>ImageAudio);
+            }
+        }
+        
+        private string _noNameAudio = "Неизвестно";
+        private string _nameAudio = "Неизвестно";
+        public string NameAudio
+        {
+            get
+            {
+                return _nameAudio;
+            }
+            set 
+            {
+                if (_nameAudio == value) return;
+
+                _nameAudio = value;
+                RaisePropertyChanged(()=>NameAudio);
+            }
+        }
+        
         public SolidColorBrush PlayerReplayForeground 
         {
             get
@@ -169,7 +203,7 @@ namespace AudioPlayer
                         _playList.RandomPlayList();
                     }
 
-                    SourceAudio = _playList.GetNext()?.source;
+                    SetMusic(_playList.GetNext());
                     _random = !_random;
                     RaisePropertyChanged(()=>PlayerRandomForeground);
                 });
@@ -184,28 +218,44 @@ namespace AudioPlayer
                 {
                     if(MediaLoadedBehavior == MediaState.Play)
                     {
-                        PlayerControlImage = new Image { Source= new BitmapImage(new Uri("../img/play.png", UriKind.Relative)) };
-                        MediaLoadedBehavior = MediaState.Pause;
+                        StopPlay();
                     }
                     else
                     {
-                        PlayerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative)) };
-                        MediaLoadedBehavior = MediaState.Play;
+                        RunPlay();
                     }
                 });
             }
+        }
+
+        public void StopPlay()
+        {
+            PlayerControlImage = new Image { Source= new BitmapImage(new Uri("../img/play.png", UriKind.Relative)) };
+            MediaLoadedBehavior = MediaState.Pause;
+        }
+        
+        public void RunPlay()
+        {
+            PlayerControlImage = new Image { Source = new BitmapImage(new Uri("../img/pause.png", UriKind.Relative)) };
+            MediaLoadedBehavior = MediaState.Play;
+        }
+
+        public void SetMusic(Music? music)
+        {
+            SourceAudio = music?.source ?? "";
+            ImageAudio = music?.sourceImg ?? _noImageAudio;
+            NameAudio = music?.name ?? _noNameAudio;
         }
         
         public void NextMusicAuto()
         {
             if (_replay)
             {
-                SourceAudio = "";
-                SourceAudio = _playList.GetNow()?.source;
+                SetMusic(_playList.GetNow());
             }
             else if (_playList != null && _playList.IsNextMusic())
             {
-                SourceAudio = _playList.GetNext()?.source;
+                SetMusic(_playList.GetNext());
             }
         }
 
@@ -213,7 +263,7 @@ namespace AudioPlayer
         {
             if (_playList != null && _playList.IsNextMusic())
             {
-                SourceAudio = _playList.GetNext()?.source;
+                SetMusic(_playList.GetNext());
             }
         }
 
@@ -221,7 +271,7 @@ namespace AudioPlayer
         {
             if (_playList != null && _playList.IsLastMusic())
             {
-                SourceAudio = _playList.Getlast()?.source;
+                SetMusic(_playList.Getlast());
             }
         }
         private void update()
