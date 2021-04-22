@@ -12,6 +12,6 @@
             <RowDefinition  />
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
-        <AudioPlayer:Player Grid.Row="1" Name="FG"/>
+        <AudioPlayer:Player Grid.Row="1" Name="CustomPlayer"/>
     </Grid>
 </Window>
