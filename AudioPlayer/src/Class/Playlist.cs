@@ -20,6 +20,11 @@ namespace AudioPlayer
             index = -1;
         }
 
+        public int getIndex()
+        {
+            return index;
+        }
+
         public void Add(Music music)
         {
             musics.Add(music);
@@ -105,7 +110,7 @@ namespace AudioPlayer
             return null;
         }
         
-        public Music? GetNow()
+        public Music GetNow()
         {
             return list[index];
         }

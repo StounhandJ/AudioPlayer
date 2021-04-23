@@ -71,6 +71,8 @@
     </Compile>
     <Compile Include="src\Class\Music.cs" />
     <Compile Include="src\Class\Playlist.cs" />
+    <Compile Include="src\Converts\SliderValueConverter.cs" />
+    <Compile Include="src\Converts\TimeConverter.cs" />
     <Compile Include="src\Player.xaml.cs">
       <DependentUpon>Player.xaml</DependentUpon>
     </Compile>

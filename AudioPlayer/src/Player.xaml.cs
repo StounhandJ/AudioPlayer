@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using AudioPlayer.Converts;
 
 namespace AudioPlayer
 {
@@ -29,7 +18,12 @@ namespace AudioPlayer
         DispatcherTimer _timerTwo = new DispatcherTimer();
         private PlayerViewModel _playerViewModel = new PlayerViewModel();
         private TimeConverter _timeConverter = new TimeConverter();
-        
+
+        public delegate void MusicEvent(object sender, MusicEventArgs e);
+
+        public event MusicEvent MusicStart;
+        public event MusicEvent MusicEnded;
+
         public Player()
         {
             InitializeComponent();
@@ -190,10 +184,12 @@ namespace AudioPlayer
             _position = media.NaturalDuration.TimeSpan;
             sliderSeek.Minimum = 0;
             sliderSeek.Maximum = _position.TotalSeconds;
+            MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
         }
         
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
         {
+            MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
             _playerViewModel.NextMusicAuto();
         }
 
@@ -236,43 +232,15 @@ namespace AudioPlayer
         }
     }
 
-    public class SliderValueConverter : IMultiValueConverter
+    public class MusicEventArgs
     {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public int indexMusic{get;}
+        public Music music {get;}
+ 
+        public MusicEventArgs(int indexMusicI, Music musicI)
         {
-            double val = (double)values[0];
-            double min = (double)values[1];
-            double max = (double)values[2];
-            double sliderWidth = (double)values[3];
-            return sliderWidth * (val - min) / (max - min);
-        }
-
-
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    
-    public class TimeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return TimeFormat((double) value);
-        }
-     
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
-
-        public string TimeFormat(double value)
-        {
-            var time = (int)Math.Round(value);
-            string seconds = (time % 60).ToString();
-            seconds = seconds.Length < 2 ? "0" + seconds : seconds;
-            return $"{time / 60}:{seconds}";
+            indexMusic = indexMusicI;
+            music = musicI;
         }
     }
 }

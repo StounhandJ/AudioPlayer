@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AudioPlayer"
+             xmlns:converts="clr-namespace:AudioPlayer.Converts"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <local:SliderValueConverter x:Key="sliderValueConverter" />
-        <local:TimeConverter x:Key="timeConverter" />
+        <converts:SliderValueConverter x:Key="sliderValueConverter" />
+        <converts:TimeConverter x:Key="timeConverter" />
         <ControlTemplate x:Key="NoMouseOverButtonTemplate" 
                          TargetType="Button">
             <Border Background="{TemplateBinding Background}"
