@@ -165,15 +165,24 @@ namespace AudioPlayer
         {
             Vol2.Visibility = Visibility.Visible;
             VolRectangle.Visibility = Visibility.Visible;
+            StubVol.IsHitTestVisible = true;
             Vol2.IsEnabled = true;
         }
 
         private void Vol_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (Mouse.GetPosition(Vol).X<0 || Mouse.GetPosition(Vol).Y > Vol.ActualHeight || Mouse.GetPosition(Vol).X > Vol.ActualWidth)
+            double x = Mouse.GetPosition(StackPanelVol).X;
+            double y = Mouse.GetPosition(StackPanelVol).Y;
+
+            bool LeaveYStackPanelVol = y > StackPanelVol.ActualHeight || y < 0;
+
+            bool IsMouseLeft_VolRectangle = x < StackPanelVol.ActualWidth / 2;
+            bool LeaveVolRectangle = (IsMouseLeft_VolRectangle && Mouse.GetPosition(VolRectangle).X<0) || (!IsMouseLeft_VolRectangle && Mouse.GetPosition(VolRectangle).X>VolRectangle.ActualWidth);
+            if (LeaveYStackPanelVol || LeaveVolRectangle)
             {
                 Vol2.Visibility = Visibility.Hidden;
                 VolRectangle.Visibility = Visibility.Hidden;
+                StubVol.IsHitTestVisible = false;
                 Vol2.IsEnabled = false;
             }
           
