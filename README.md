@@ -35,6 +35,12 @@ CustomPlayer.SetMusic(new Music {source = new Uri(directory + "audioTest/Artik.m
 
 ## Others methods
 
+### Event
+```c#
+CustomPlayer.MusicStart // Event when the track starts playing
+CustomPlayer.MusicEnded // Event at the end of track playback
+```
+
 ### Playback control
 ```c#
 CustomPlayer.Stop(); // Stop play music
