@@ -79,11 +79,27 @@ namespace AudioPlayer
             }
         }
         
+        private SolidColorBrush _styleBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#fc0"));
+        public SolidColorBrush StyleBackground
+        {
+            get
+            {
+                return _styleBackground;
+            }
+            set
+            {
+                if (_styleBackground == value) return;
+
+                _styleBackground = value;
+                RaisePropertyChanged(()=>StyleBackground);
+            }
+        }
+        
         public SolidColorBrush PlayerReplayForeground 
         {
             get
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom(_replay?"#fc0":"#000000"));
+                return _replay?StyleBackground:(SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
             }
         }
         
@@ -91,7 +107,7 @@ namespace AudioPlayer
         {
             get
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom(_random?"#fc0":"#000000"));
+                return _random?StyleBackground:(SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
             }
         }
 

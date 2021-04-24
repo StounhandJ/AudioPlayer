@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using AudioPlayer.Converts;
 
@@ -24,6 +25,19 @@ namespace AudioPlayer
         public event MusicEvent MusicStart;
         public event MusicEvent MusicEnded;
 
+        public SolidColorBrush StyleBackground
+        {
+            get
+            {
+                return _playerViewModel.StyleBackground;
+            }
+            set
+            {
+                if (_playerViewModel.StyleBackground == value) return;
+
+                _playerViewModel.StyleBackground = value;
+            }
+        }
         public Player()
         {
             InitializeComponent();

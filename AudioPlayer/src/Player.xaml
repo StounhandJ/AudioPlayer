@@ -61,7 +61,7 @@
             <Slider.Template>
                 <ControlTemplate TargetType="{x:Type Slider}">
                     <Border Background="Silver" Height="30" MouseDown="sliderSeek_MouseDown">
-                        <Border Background="#fc0" HorizontalAlignment="Left">
+                        <Border Background="{Binding StyleBackground}" HorizontalAlignment="Left">
                             <Border.Width>
                                 <MultiBinding Converter="{StaticResource sliderValueConverter}">
                                     <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
@@ -155,7 +155,7 @@
                 <Slider.Template>
                     <ControlTemplate TargetType="{x:Type Slider}">
                         <Border Background="Silver" Height="30" MouseDown="sliderVol_MouseDown">
-                            <Border Background="#fc0" HorizontalAlignment="Left">
+                            <Border Background="{Binding StyleBackground}" HorizontalAlignment="Left">
                                 <Border.Width>
                                     <MultiBinding Converter="{StaticResource sliderValueConverter}">
                                         <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
