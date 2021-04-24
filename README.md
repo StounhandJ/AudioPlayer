@@ -35,6 +35,11 @@ CustomPlayer.SetMusic(new Music {source = new Uri(directory + "audioTest/Artik.m
 
 ## Others methods
 
+### Parameters
+```c#
+CustomPlayer.StyleBackground // Main color the Audio player
+```
+
 ### Event
 ```c#
 CustomPlayer.MusicStart // Event when the track starts playing
@@ -60,3 +65,5 @@ CustomPlayer.MixPlayList(); // Shuffle playlist
 CustomPlayer.AddMusic_PlayList(music); // Add music to a playlist
 CustomPlayer.RemoveMusic_PlayList(music); // Delete music from a playlist
 ```
+
+An example of the application can be viewed [here](https://github.com/StounhandJ/AudioPlayer/tree/master/AudioPlayerTest)
