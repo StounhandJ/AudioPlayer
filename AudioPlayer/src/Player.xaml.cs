@@ -110,6 +110,11 @@ namespace AudioPlayer
             _playerViewModel.ChangeReplay(false);
         }
         
+        public int getMusicNumber()
+        {
+            return _playerViewModel.PlayList.getIndex();
+        }
+        
         public void AddMusic_PlayList(Music music)
         {
             if (_playerViewModel.PlayList!=null)
