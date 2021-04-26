@@ -55,6 +55,7 @@ CustomPlayer.StartReplay(); // Enables track replay
 CustomPlayer.StopReplay(); // Disables track replay
 CustomPlayer.NextMusic(); // Play next music
 CustomPlayer.LastMusic(); // Play last music
+CustomPlayer.getMusicNumber(); // Get number play music
 CustomPlayer.PickNumberMusic_PlayList(index); // Play music under the number (index from scratch)
 CustomPlayer.PickMusic_PlayList(music); // Play music if in playlist
 CustomPlayer.MixPlayList(); // Shuffle playlist
