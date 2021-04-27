@@ -209,7 +209,7 @@ namespace AudioPlayer
             {
                 return new DelegateCommand(() =>
                 {
-                    RandomPlayList();
+                    ChangeRandomPlayList(!_random);
                 });
             }
         }
@@ -250,15 +250,17 @@ namespace AudioPlayer
             RaisePropertyChanged(()=>PlayerReplayForeground);
         }
 
-        public void RandomPlayList(bool button = true)
+        public void ChangeRandomPlayList(bool random)
         {
-            if (_random && button)
+            if (random==_random) return;
+            
+            if (random)
             {
-                _playList.StandartPlayList();
+                _playList.RandomPlayList();
             }
             else
             {
-                _playList.RandomPlayList();
+                _playList.StandartPlayList();
             }
 
             SetMusic(_playList.GetNext());

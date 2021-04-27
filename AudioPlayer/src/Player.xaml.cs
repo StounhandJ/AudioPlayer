@@ -95,9 +95,14 @@ namespace AudioPlayer
             _playerViewModel.LastMusic();
         }
         
-        public void MixPlayList()
+        public void StartRandom()
         {
-            _playerViewModel.RandomPlayList(button:false);
+            _playerViewModel.ChangeRandomPlayList(true);
+        }
+        
+        public void StopRandom()
+        {
+            _playerViewModel.ChangeRandomPlayList(false);
         }
 
         public void StartReplay()
@@ -110,9 +115,14 @@ namespace AudioPlayer
             _playerViewModel.ChangeReplay(false);
         }
         
-        public int getMusicNumber()
+        public int getNowMusicIndex()
         {
             return _playerViewModel.PlayList.getIndex();
+        }
+        
+        public Music getNowMusic()
+        {
+            return _playerViewModel.PlayList.GetNow();
         }
         
         public void AddMusic_PlayList(Music music)

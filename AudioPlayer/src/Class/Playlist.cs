@@ -37,7 +37,7 @@ namespace AudioPlayer
         
         public bool SetIndex(int indexI)
         {
-            if (indexI>0 && indexI<list.Count-1)
+            if (indexI>-1 && indexI<list.Count)
             {
                 index = indexI - 1;
                 return true;
@@ -49,7 +49,7 @@ namespace AudioPlayer
         public bool SetMusic(Music musci)
         {
             int indexI = list.IndexOf(musci);
-            if (indexI>0)
+            if (indexI>-1)
             {
                 index = indexI-1;
                 return true;
