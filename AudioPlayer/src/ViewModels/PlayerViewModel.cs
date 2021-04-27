@@ -4,11 +4,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DevExpress.Mvvm;
 
-namespace AudioPlayer
+// using DevExpress.Mvvm;
+
+namespace AudioPlayer.ViewModels
 {
-    public class PlayerViewModel : ViewModelBase
+    public sealed class PlayerViewModel : INotifyPropertyChanged
     {
         private bool _replay = false;
         
@@ -58,7 +59,7 @@ namespace AudioPlayer
                 if (_imageAudio == value) return;
 
                 _imageAudio = value;
-                RaisePropertyChanged(()=>ImageAudio);
+                this.OnPropertyChanged("ImageAudio");
             }
         }
         
@@ -75,7 +76,7 @@ namespace AudioPlayer
                 if (_nameAudio == value) return;
 
                 _nameAudio = value;
-                RaisePropertyChanged(()=>NameAudio);
+                this.OnPropertyChanged("NameAudio");
             }
         }
         
@@ -91,7 +92,7 @@ namespace AudioPlayer
                 if (_styleBackground == value) return;
 
                 _styleBackground = value;
-                RaisePropertyChanged(()=>StyleBackground);
+                this.OnPropertyChanged("StyleBackground");
             }
         }
         
@@ -123,7 +124,7 @@ namespace AudioPlayer
                 if (_mediaLoadedBehavior == value) return;
 
                 _mediaLoadedBehavior = value;
-                RaisePropertyChanged(()=>MediaLoadedBehavior);
+                this.OnPropertyChanged("MediaLoadedBehavior");
             }
         }
         
@@ -139,7 +140,7 @@ namespace AudioPlayer
                 if (_playerControlImage == value) return;
 
                 _playerControlImage = value;
-                RaisePropertyChanged(()=>PlayerControlImage);
+                this.OnPropertyChanged("PlayerControlImage");
             }
         }
         
@@ -180,7 +181,10 @@ namespace AudioPlayer
         {
             get
             {
-                return new DelegateCommand(NextMusic);
+                return new DelegateCommand((p) =>
+                {
+                    NextMusic();
+                });
             }
         }
         
@@ -188,7 +192,10 @@ namespace AudioPlayer
         {
             get
             {
-                return new DelegateCommand(LastMusic);
+                return new DelegateCommand((p)=>
+                {
+                    LastMusic();
+                });
             }
         }
         
@@ -196,7 +203,7 @@ namespace AudioPlayer
         {
             get
             {
-                return new DelegateCommand(() =>
+                return new DelegateCommand((p) =>
                 {
                     ChangeReplay(!_replay);
                 });
@@ -207,7 +214,7 @@ namespace AudioPlayer
         {
             get
             {
-                return new DelegateCommand(() =>
+                return new DelegateCommand((p) =>
                 {
                     ChangeRandomPlayList(!_random);
                 });
@@ -218,7 +225,7 @@ namespace AudioPlayer
         {
             get
             {
-                return new DelegateCommand(() =>
+                return new DelegateCommand((p) =>
                 {
                     if(MediaLoadedBehavior == MediaState.Play)
                     {
@@ -247,7 +254,7 @@ namespace AudioPlayer
         public void ChangeReplay(bool replay)
         {
             _replay = replay;
-            RaisePropertyChanged(()=>PlayerReplayForeground);
+            this.OnPropertyChanged("PlayerReplayForeground");
         }
 
         public void ChangeRandomPlayList(bool random)
@@ -265,7 +272,7 @@ namespace AudioPlayer
 
             SetMusic(_playList.GetNext());
             _random = !_random;
-            RaisePropertyChanged(()=>PlayerRandomForeground);
+            this.OnPropertyChanged("PlayerRandomForeground");
         }
 
         public void SetMusic(Music? music)
@@ -306,20 +313,48 @@ namespace AudioPlayer
         }
         private void update()
         {
-            RaisePropertyChanged(()=>PlayerLastEnabled);
-            RaisePropertyChanged(()=>PlayerNextEnabled);
-            RaisePropertyChanged(()=>PlayerNextOpacity);
-            RaisePropertyChanged(()=>PlayerLastOpacity);
-            RaisePropertyChanged(()=>MediaLoadedBehavior);
-            RaisePropertyChanged(()=>PlayerReplayForeground);
-            RaisePropertyChanged(()=>SourceAudio);
+            this.OnPropertyChanged("PlayerLastEnabled");
+            this.OnPropertyChanged("PlayerNextEnabled");
+            this.OnPropertyChanged("PlayerNextOpacity");
+            this.OnPropertyChanged("PlayerLastOpacity");
+            this.OnPropertyChanged("MediaLoadedBehavior");
+            this.OnPropertyChanged("PlayerReplayForeground");
+            this.OnPropertyChanged("SourceAudio");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-		
-        protected virtual void OnPropertyChanged(string propertyName)
+
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    public class DelegateCommand : ICommand
+    {
+        private Predicate<object> _canExecute;
+        private Action<object> _execute;
+
+        public DelegateCommand(Action<object> execute)
+        {
+            this._canExecute = (p) => { return true;};
+            this._execute = execute;
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            _execute(parameter);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using AudioPlayer.Converts;
+using AudioPlayer.ViewModels;
 
 namespace AudioPlayer
 {
