@@ -22,6 +22,7 @@ namespace AudioPlayerTest
                 new Music {source = new Uri(directory + "audioTest/Rakhim.mp3"), name = "Dance", sourceImg = new Uri(directory + "imgTest/slon.jpg")},
             });
             CustomPlayer.SetPlayList(list);
+            CustomPlayer.StartRandom();
             // CustomPlayer.SetMusic(new Music {source = new Uri(directory + "audioTest/Artik.mp3")});
         }
 
