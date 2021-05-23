@@ -223,7 +223,7 @@ namespace AudioPlayer
             _position = media.NaturalDuration.TimeSpan;
             sliderSeek.Minimum = 0;
             sliderSeek.Maximum = _position.TotalSeconds;
-            MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
+            MusicStart?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
         }
         
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)

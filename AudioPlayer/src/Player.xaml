@@ -76,8 +76,7 @@
             </Slider.Template>
         </Slider>
         <TextBlock Name="sliderSeekTIME" Visibility="Hidden" IsHitTestVisible="False" Grid.Row="0" Grid.Column="0" IsEnabled="False"
-                   Text="{Binding Value, ElementName=sliderSeek, Converter={StaticResource timeConverter}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
-                   Margin="0,0,79.8,39.2" Grid.RowSpan="2" />
+                   Text="{Binding Value, ElementName=sliderSeek, Converter={StaticResource timeConverter}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
 
         <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.Row="1" Height="30">
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Name="PlayerLast" FontSize="20" Margin="2" IsEnabled="{Binding PlayerLastEnabled}"
@@ -174,19 +173,19 @@
                     MouseEnter="Vol_MouseEnter" Click="Vol_OnClick"/>
         </Grid>
         <Canvas Grid.Row="0" Grid.Column="0" IsEnabled="False">
-        <Grid x:Name="TopTime" Canvas.Left="77" Canvas.Top="-40" Visibility="Hidden">
-            <Rectangle Fill="#fff" Margin="0,0,-5,0" RadiusX="2" RadiusY="2">
-                <Rectangle.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="22"  ShadowDepth="8" Opacity="0.4" Direction="250"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <Rectangle Fill="#fff" Margin="19,30,9.6,-29.2">
-                <Rectangle.RenderTransform>
-                    <RotateTransform Angle="230" />
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <TextBlock Name="TopTimeTextBlock" IsHitTestVisible="False" IsEnabled="False" FontSize="12" VerticalAlignment="Center" Margin="10,4,5,5"/>
-        </Grid>
+            <Grid x:Name="TopTime" Canvas.Top="-40" Width="40" Height="25" Visibility="Visible">
+                <Rectangle Fill="#fff" RadiusX="2" RadiusY="2">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="8" Opacity="0.4" Direction="250"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle Fill="#fff" Margin="19,30,9.6,-29.2">
+                    <Rectangle.RenderTransform>
+                        <RotateTransform Angle="230" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <TextBlock Name="TopTimeTextBlock" Text="2:04" IsHitTestVisible="False" IsEnabled="False" FontSize="12" VerticalAlignment="Center" TextAlignment="Center"/>
+            </Grid>
         </Canvas>
     </Grid>
 </UserControl>

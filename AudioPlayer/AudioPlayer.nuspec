@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>StounhandJ.AudioPlayer</id>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <title>AudioPlayer</title>
     <authors>StounhandJ</authors>
     <owners/>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.errlog.io/images/errlog_dark_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Built-in audio player, with full access to the settings of the user and the developer. Support for Internet resources.</description>
-    <releaseNotes>Release v1</releaseNotes>
+    <releaseNotes>fixed it event and design</releaseNotes>
     <copyright/>
     <tags>MediaElement</tags>
     <dependencies/>
