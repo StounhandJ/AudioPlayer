@@ -173,7 +173,7 @@
                     MouseEnter="Vol_MouseEnter" Click="Vol_OnClick"/>
         </Grid>
         <Canvas Grid.Row="0" Grid.Column="0" IsEnabled="False">
-            <Grid x:Name="TopTime" Canvas.Top="-40" Width="40" Height="25" Visibility="Visible">
+            <Grid x:Name="TopTime" Canvas.Top="-40" Width="40" Height="25" Visibility="Hidden">
                 <Rectangle Fill="#fff" RadiusX="2" RadiusY="2">
                     <Rectangle.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="8" Opacity="0.4" Direction="250"/>
