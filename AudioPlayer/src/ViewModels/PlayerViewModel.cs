@@ -178,6 +178,41 @@ namespace AudioPlayer.ViewModels
             }
         }
 
+        public string VolumeButtonContent
+        {
+            get
+            {
+                if (Volume == 0) return "🔇";
+                
+                return _volume > 0.5 ? "🔊" : "🔉";
+            }
+        }
+        
+        public int VolumeButtonFontSize
+        {
+            get
+            {
+                return Volume == 0 ? 20 : 15;
+            }
+        }
+
+        private double _volume;
+        public double Volume
+        {
+            get
+            {
+                return _volume;
+            }
+            set
+            {
+                _volume = value;
+                
+                this.OnPropertyChanged("Volume");
+                this.OnPropertyChanged("VolumeButtonContent");
+                this.OnPropertyChanged("VolumeButtonFontSize");
+            }
+        }
+
         public ICommand PlayerNext_Click
         {
             get

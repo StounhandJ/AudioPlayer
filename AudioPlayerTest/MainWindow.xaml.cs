@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using AudioPlayer;
+using AudioPlayer.Class;
 
 namespace AudioPlayerTest
 {

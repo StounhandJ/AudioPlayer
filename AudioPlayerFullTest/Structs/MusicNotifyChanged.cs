@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using AudioPlayer;
+using AudioPlayer.Class;
 using AudioPlayer.Converts;
 
 namespace AudioPlayerFullTest.Structs

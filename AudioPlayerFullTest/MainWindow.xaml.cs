@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using AudioPlayer;
+using AudioPlayer.Class;
 using AudioPlayerFullTest.Structs;
 
 namespace AudioPlayerFullTest

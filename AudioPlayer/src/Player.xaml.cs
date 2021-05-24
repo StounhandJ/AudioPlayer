@@ -117,7 +117,7 @@ namespace AudioPlayer
         /// <param name="volume">from 0 to 1</param>
         public void SetVolume(int volume)
         {
-            Vol2.Value = volume >= 0 && volume <= 1 ? volume : Vol2.Value;
+            VolumeSlider.Value = volume >= 0 && volume <= 1 ? volume : VolumeSlider.Value;
         }
         
         private double lastVol = -1;
@@ -128,12 +128,12 @@ namespace AudioPlayer
         {
             if (IsMute)
             {
-                lastVol = Vol2.Value;
-                Vol2.Value = 0;
+                lastVol = VolumeSlider.Value;
+                this._playerViewModel.Volume = 0;
             }
             else
             {
-                Vol2.Value = lastVol;
+                this._playerViewModel.Volume = lastVol;
                 lastVol = -1;
             }
         }
@@ -281,18 +281,18 @@ namespace AudioPlayer
 
         private void sliderVol_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            double x = e.GetPosition(Vol2).X;
-            double val = 1 - (Vol2.ActualWidth - x) / Vol2.ActualWidth;
-            double pos = Convert.ToDouble(val * (Vol2.Maximum - Vol2.Minimum) + Vol2.Minimum);
-            Vol2.Value = pos;
+            double x = e.GetPosition(VolumeSlider).X;
+            double val = 1 - (VolumeSlider.ActualWidth - x) / VolumeSlider.ActualWidth;
+            double pos = Convert.ToDouble(val * (VolumeSlider.Maximum - VolumeSlider.Minimum) + VolumeSlider.Minimum);
+            VolumeSlider.Value = pos;
         }
 
         private void Vol_MouseEnter(object sender, MouseEventArgs e)
         {
-            Vol2.Visibility = Visibility.Visible;
+            VolumeSlider.Visibility = Visibility.Visible;
             VolRectangle.Visibility = Visibility.Visible;
             StubVol.IsHitTestVisible = true;
-            Vol2.IsEnabled = true;
+            VolumeSlider.IsEnabled = true;
         }
 
         private void Vol_MouseLeave(object sender, MouseEventArgs e)
@@ -306,10 +306,10 @@ namespace AudioPlayer
             bool LeaveVolRectangle = (IsMouseLeft_VolRectangle && Mouse.GetPosition(VolRectangle).X<0) || (!IsMouseLeft_VolRectangle && Mouse.GetPosition(VolRectangle).X>VolRectangle.ActualWidth);
             if (LeaveYStackPanelVol || LeaveVolRectangle)
             {
-                Vol2.Visibility = Visibility.Hidden;
+                VolumeSlider.Visibility = Visibility.Hidden;
                 VolRectangle.Visibility = Visibility.Hidden;
                 StubVol.IsHitTestVisible = false;
-                Vol2.IsEnabled = false;
+                VolumeSlider.IsEnabled = false;
             }
           
         }

@@ -55,7 +55,7 @@
         <MediaElement LoadedBehavior="{Binding MediaLoadedBehavior}" Source="{Binding SourceAudio}" Height="189"
                       HorizontalAlignment="Left" Margin="12,12,0,0"
                       Name="media" VerticalAlignment="Top" Width="399" MediaOpened="media_MediaOpened"
-                      MediaEnded="Media_OnMediaEnded" />
+                      MediaEnded="Media_OnMediaEnded" Volume="{Binding Volume, Mode=TwoWay}" />
 
         <Slider MouseEnter="SliderSeek_OnMouseEnter" MouseLeave="SliderSeek_OnMouseLeave" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" IsMoveToPointEnabled="True" Name="sliderSeek">
             <Slider.Template>
@@ -128,7 +128,7 @@
             <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerReplayForeground}" Name="PlayerReplay" Content="⭮" Command="{Binding PlayerReplay_Click}"
                     FontSize="25" BorderThickness="0"
                     Background="Transparent" Margin="0,-4,0,0.4" />
-            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerRandomForeground}" x:Name="PlayerRandom" Content="⤮" Command="{Binding PlayerRandom_Click}"
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Foreground="{Binding PlayerRandomForeground}" Name="PlayerRandom" Content="⤮" Command="{Binding PlayerRandom_Click}"
                     FontSize="30" BorderThickness="0"
                     Background="Transparent" Margin="0,-9,0,0.4" Width="25" />
         </StackPanel>
@@ -144,9 +144,9 @@
                     <DropShadowEffect Color="Black" BlurRadius="20"  ShadowDepth="2" Opacity="0.5" Direction="-230"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Slider Grid.Row="0" x:Name="Vol2" TickFrequency="0.1" Visibility="Hidden" IsEnabled="False"
+            <Slider Grid.Row="0" Name="VolumeSlider" TickFrequency="0.1" Visibility="Hidden" IsEnabled="False"
                     IsMoveToPointEnabled="True" Maximum="1" Minimum="0"
-                    Value="{Binding Volume, ElementName=media, Mode=TwoWay}" Height="16" Width="100"  Grid.RowSpan="2" Margin="17,105,-67.8,13.4"
+                    Value="{Binding Volume, Mode=TwoWay}" Height="16" Width="100"  Grid.RowSpan="2" Margin="17,105,-67.8,13.4"
                     >
                 <Slider.RenderTransform>
                     <RotateTransform Angle="270" />
@@ -169,11 +169,11 @@
                 </Slider.Template>
             </Slider>
             <Rectangle Name="StubVol" Grid.Row="1" Fill="Transparent" IsHitTestVisible="False"/>
-            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Grid.Row="2" x:Name="Vol" Content="🔊" BorderThickness="0" Background="Transparent"
+            <Button Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource StyleMouseOver07}" Grid.Row="2" Name="VolumeButton" Content="{Binding VolumeButtonContent}" FontSize="{Binding VolumeButtonFontSize}" BorderThickness="0" Background="Transparent"
                     MouseEnter="Vol_MouseEnter" Click="Vol_OnClick"/>
         </Grid>
         <Canvas Grid.Row="0" Grid.Column="0" IsEnabled="False">
-            <Grid x:Name="TopTime" Canvas.Top="-40" Width="40" Height="25" Visibility="Hidden">
+            <Grid Name="TopTime" Canvas.Top="-40" Width="40" Height="25" Visibility="Hidden">
                 <Rectangle Fill="#fff" RadiusX="2" RadiusY="2">
                     <Rectangle.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="8" Opacity="0.4" Direction="250"/>
