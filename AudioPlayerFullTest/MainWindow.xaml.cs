@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using AudioPlayer;
 using AudioPlayer.Class;
 using AudioPlayerFullTest.Structs;
+using Microsoft.Win32;
 
 namespace AudioPlayerFullTest
 {
@@ -16,7 +18,11 @@ namespace AudioPlayerFullTest
     public partial class MainWindow
     {
         private ObservableCollection<PlayListCollection> PlayListCollections;
+        
+        private string path_MusicDirectory = Directory.GetCurrentDirectory()+"\\musics";
 
+        private PlayListCollection PlayingPlayList;
+        
         private PlayListCollection SelectedPlayList;
         public MainWindow()
         {
@@ -29,10 +35,11 @@ namespace AudioPlayerFullTest
             playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 2", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\Konfuz-Ратата.mp3")}});
             playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 3", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\РукиВверх-Нокаут.mp3")}});
             this.PlayListCollections.Add(playList);
-            
+
+            this.SelectedPlayList = playList;
             this.SelectingPlauList(playList);
             
-            this.CustomPlayer.SetVolume(0);
+            this.CustomPlayer.MuteVolume(true);
             
             PlayListCollection playList2 = new PlayListCollection();
             playList2.name = "Второй";
@@ -44,12 +51,24 @@ namespace AudioPlayerFullTest
 
         private void PlayListPanel_OnSelectedMusic(MusicNotifyChanged obj)
         {
-            this.CustomPlayer.StopRandom();
-            this.CustomPlayer.PickMusic_PlayList(obj.musics);
+            if (this.SelectedPlayList.Equals(this.PlayingPlayList))
+            {
+                this.CustomPlayer.StopRandom();
+                this.CustomPlayer.PickMusic_PlayList(obj.musics);
+            }
+            else
+            {
+                this.SelectingPlauList(this.SelectedPlayList);
+                this.CustomPlayer.StopRandom();
+                this.CustomPlayer.PickMusic_PlayList(obj.musics);
+            }
+            
         }
 
         private void CustomPlayer_OnMusicStart(object sender, MusicEventArgs e)
         {
+            if (!this.SelectedPlayList.Equals(this.PlayingPlayList)) return;
+            
             this.MusicContainer.MusicPlay = this.MusicContainer.playList.musics.First((musicNotify) =>
             {
                 return musicNotify.musics.Equals(e.music);
@@ -58,18 +77,15 @@ namespace AudioPlayerFullTest
 
         private void PlayListPanel_OnSelectedPlayList(PlayListCollection obj)
         {
-            if (!this.SelectedPlayList.Equals(obj))
-            {
-                this.SelectingPlauList(obj);
-            }
+            this.SelectedPlayList = obj;
+            this.VisibilitySelectedPlayList();
         }
 
         private void SelectingPlauList(PlayListCollection playList)
         {
             if (this.PlayListCollections.IndexOf(playList)==-1) return;
             
-            this.SelectedPlayList = playList;
-            this.MusicContainer.playList = playList;
+            this.PlayingPlayList = playList;
             this.PlayListPanel.playLists = PlayListCollections;
             this.MenuAddPlaylist.playLists = PlayListCollections;
             
@@ -77,6 +93,19 @@ namespace AudioPlayerFullTest
             {
                 return musicNotify.musics;
             })));
+            
+            VisibilitySelectedPlayList();
+        }
+
+        private void VisibilitySelectedPlayList()
+        {
+            if (this.PlayListCollections.IndexOf(this.SelectedPlayList)==-1) return;
+            
+            this.MusicContainer.playList = this.SelectedPlayList;
+            this.MusicContainer.MusicPlay = this.MusicContainer.playList.musics.FirstOrDefault((musicNotify) =>
+            {
+                return musicNotify.musics.Equals(CustomPlayer.getNowMusic());
+            });
         }
 
         private MusicNotifyChanged selectMusicAdd;
@@ -112,6 +141,64 @@ namespace AudioPlayerFullTest
             if (index==-1 || this.PlayListCollections[index].musics.IndexOf(selectMusicAdd)!=-1) return;
             
             this.PlayListCollections[index].musics.Add(selectMusicAdd);
+        }
+
+        private void ButtonAddMusic_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Music|*.mp3";
+            if (dlg.ShowDialog() == true)
+            {
+                uploadMusic(dlg.FileName);
+            }
+        }
+        
+        private void uploadMusic(string path)
+        {
+            int time = (Int32) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            Directory.CreateDirectory(path_MusicDirectory+"\\"+time);
+                    
+            string fileName = path.Split('\\').Last();
+            string filePath = path_MusicDirectory + "\\" + time + "\\" + fileName;
+            File.Copy(path,filePath);
+
+            int index = this.PlayListCollections.IndexOf(this.SelectedPlayList);
+            this.PlayListCollections[index].musics.Add(new MusicNotifyChanged{musics = new Music{name = fileName, source = new Uri(filePath)}});
+        }
+
+        private void FileDrop(object sender, DragEventArgs e)
+        {
+            string[] filenames = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+            foreach (string filename in filenames)
+            {
+                uploadMusic(filename);
+            }
+        }
+        
+        private void MusicContainer_DragOver(object sender, DragEventArgs e)
+        { 
+            bool dropEnabled = true;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            { 
+                string[] filenames = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+                foreach (string filename in filenames)
+                {
+                    if (System.IO.Path.GetExtension(filename).ToUpperInvariant() != ".mp3")
+                    {
+                        dropEnabled = false; break;
+                    }
+                } 
+            }
+            else
+            { 
+                dropEnabled = false;
+            }
+
+            if (!dropEnabled)
+            {
+                e.Effects = DragDropEffects.None; 
+                e.Handled = true;
+            }            
         }
     }
 }

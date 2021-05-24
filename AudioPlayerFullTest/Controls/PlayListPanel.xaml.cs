@@ -32,10 +32,5 @@ namespace AudioPlayerFullTest.Controls
         {
             SelectedPlayList?.Invoke(this.ListViewPlayList.SelectedItem is PlayListCollection ? (PlayListCollection) this.ListViewPlayList.SelectedItem : default);
         }
-
-        private void ButtonAddMusic_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }

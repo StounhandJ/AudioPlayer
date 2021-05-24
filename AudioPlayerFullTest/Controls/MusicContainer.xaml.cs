@@ -36,8 +36,16 @@ namespace AudioPlayerFullTest.Controls
             {
                 this.noPlayAll();
                 int index = DataListBox.Items.IndexOf(value);
-                (DataListBox.Items.GetItemAt(index) as MusicNotifyChanged)?.play();
-                _musicPlay = value;
+                if (index != -1)
+                {
+                    (DataListBox.Items.GetItemAt(index) as MusicNotifyChanged)?.play();
+                    _musicPlay = value;
+                }
+                else
+                {
+                    _musicPlay = new MusicNotifyChanged();
+                }
+                
             }
         }
 
