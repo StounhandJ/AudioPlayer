@@ -74,13 +74,13 @@ CustomPlayer.RemoveMusic_PlayList(Music) // Delete music from a playlist
 ```
 -----
 ## Class
-###Music
+### Music
 ```c#
 Uri source // The path to music
 string name // Music name
 Uri sourceImg // The path to image
 ```
-###Playlist
+### Playlist
 ```c#
 string name; // Playlist name
 
