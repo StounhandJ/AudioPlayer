@@ -101,5 +101,9 @@
         <Name>AudioPlayer</Name>
       </ProjectReference>
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="img\noavatar.jpg" />
+      <Content Include="img\play.png" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

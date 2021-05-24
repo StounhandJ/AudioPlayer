@@ -6,7 +6,40 @@
              xmlns:local="clr-namespace:AudioPlayerFullTest.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="BoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        
+        <ListBox SelectionChanged="ListBox_OnSelectionChanged" Name="DataListBox"
+                 ItemContainerStyle="{StaticResource BoxItemStyle}" BorderThickness="0"
+                 HorizontalContentAlignment="Stretch" VerticalAlignment="Top" Margin="0"
+                 Padding="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid AllowDrop="True" Margin="0" Background="{Binding Background}">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Click="MenuItem_OnClick" Header="Добавить в плейлист" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Opacity="{Binding OpacityI}" Source="{Binding musics.sourceImg}"
+                               Width="40" Height="40" Margin="0 5 0 5" />
+                        <Image Grid.Column="0" Visibility="{Binding VisibilityI}" Source="../img/play.png" Width="20"
+                               Height="20" Margin="0 5 0 5" />
+                        <TextBlock Grid.Column="1" Text="{Binding musics.name}" Margin="10 10 0 0" />
+                        <TextBlock Grid.Column="3" Text="{Binding time}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

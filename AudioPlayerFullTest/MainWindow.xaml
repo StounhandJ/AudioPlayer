@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayerFullTest"
         xmlns:audioPlayer="clr-namespace:AudioPlayer;assembly=AudioPlayer"
+        xmlns:controls="clr-namespace:AudioPlayerFullTest.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="550" Width="680"
+        MinHeight="300" MinWidth="500">
     <Window.Resources>
         <ControlTemplate x:Key="ControlTemplateL" TargetType="ListViewItem">
             <Border Background="{TemplateBinding Background}"
@@ -16,24 +18,21 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
             </Border>
         </ControlTemplate>
-
-        <Style x:Key="BoxItemStyle" TargetType="ListViewItem">
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-        </Style>
-
-        <ControlTemplate x:Key="NoMouseOverButtonTemplate"
-                         TargetType="Button">
-            <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </Border>
-
-        </ControlTemplate>
     </Window.Resources>
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <controls:MusicContainer Grid.Row="0" Grid.Column="1" x:Name="PlayListPanel"
+                                SelectedMusic="PlayListPanel_OnSelectedMusic"/>
+        
+        <audioPlayer:Player Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="CustomPlayer" 
+                            MusicStart="CustomPlayer_OnMusicStart"/>
     </Grid>
 </Window>
