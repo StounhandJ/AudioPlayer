@@ -4,6 +4,8 @@ namespace AudioPlayerFullTest.Structs
 {
     public struct PlayListCollection
     {
-        public ObservableCollection<MusicNotifyChanged> musics;
+        public string name { get; set; }
+
+        public ObservableCollection<MusicNotifyChanged> musics { get; set; }
     }
 }

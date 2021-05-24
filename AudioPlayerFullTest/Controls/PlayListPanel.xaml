@@ -6,7 +6,41 @@
              xmlns:local="clr-namespace:AudioPlayerFullTest.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <UserControl.Resources>
         
-    </Grid>
+        <Style x:Key="BoxItemStyle" TargetType="ListViewItem">
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate"
+                         TargetType="Button">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+        </ControlTemplate>
+        
+    </UserControl.Resources>
+    <Border BorderBrush="#395984" BorderThickness="0 0 2 0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <ListView SelectionChanged="ListViewPlayList_OnSelectionChanged" BorderThickness="0"
+                      Name="ListViewPlayList" ItemContainerStyle="{StaticResource BoxItemStyle}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Click="ButtonAddMusic_OnClick" Grid.Row="1" Margin="0 0 0 5" Content="Добавить аудио"
+                    Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0"
+                    BorderThickness="0" />
+        </Grid>
+    </Border>
 </UserControl>

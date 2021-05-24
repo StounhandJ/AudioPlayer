@@ -20,19 +20,30 @@
         </ControlTemplate>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Grid Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <controls:PlayListPanel Grid.Row="0" Grid.Column="0" x:Name="PlayListPanel"
+                                    SelectedPlayList="PlayListPanel_OnSelectedPlayList" />
+
+            <controls:MusicContainer Grid.Row="0" Grid.Column="1" x:Name="MusicContainer"
+                                     SelectedMusic="PlayListPanel_OnSelectedMusic"
+                                     ContextMenuClick="MusicContainer_OnContextMenuClick" />
+
+            <audioPlayer:Player Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomPlayer"
+                                MusicStart="CustomPlayer_OnMusicStart" />
+        </Grid>
         
-        <controls:MusicContainer Grid.Row="0" Grid.Column="1" x:Name="PlayListPanel"
-                                SelectedMusic="PlayListPanel_OnSelectedMusic"/>
-        
-        <audioPlayer:Player Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="CustomPlayer" 
-                            MusicStart="CustomPlayer_OnMusicStart"/>
+        <controls:MenuAddPlaylist x:Name="MenuAddPlaylist" Visibility="Hidden" IsEnabled="False"
+                                  SelectedPlayList="MenuAddPlaylist_OnSelectedPlayList"
+                                  CreatePlayList="MenuAddPlaylist_OnCreatePlayList"
+                                  Close="MenuAddPlaylist_OnClose"/>
     </Grid>
 </Window>

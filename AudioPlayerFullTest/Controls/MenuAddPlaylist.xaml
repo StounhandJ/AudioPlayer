@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AudioPlayerFullTest.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="350" d:DesignWidth="250">
     <UserControl.Resources>
         <Style x:Key="BoxItemStyle" TargetType="ListViewItem">
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -25,38 +25,38 @@
     </UserControl.Resources>
     <Border Width="250" Height="350" Name="AddPlayBorder"
             BorderBrush="#395984"
-            BorderThickness="2" Visibility="Hidden" IsEnabled="False" Background="#FFF">
-            <Grid Name="AddPlay">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="50" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition />
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
-                <TextBlock Margin="20 5 0 0" Text="Добавить в плейлист" FontSize="15" Grid.ColumnSpan="2" />
-                <TextBox Name="NewNamePlayList" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Height="25"
-                         Width="170" />
-                <Button Grid.Row="1" Grid.Column="2" Content="+" Height="20" Width="20"
-                        Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0" BorderThickness="0" />
+            BorderThickness="2" Background="#FFF">
+        <Grid Name="AddPlay">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="40" />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <TextBlock Margin="20 5 0 0" Text="Добавить в плейлист" FontSize="15" Grid.ColumnSpan="2" />
+            <TextBox Name="NewNamePlayList" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Height="25"
+                     Width="170" />
+            <Button Click="CreatePlayList_OnClick" Grid.Row="1" Grid.Column="2" Content="+" Height="20" Width="20"
+                    Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0" BorderThickness="0" />
 
-                <ListView BorderThickness="0"
-                          Name="ListViewPlayListAdd" Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Width="220"
-                          ItemContainerStyle="{StaticResource BoxItemStyle}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding name}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+            <ListView SelectionChanged="ListViewPlayListAdd_OnSelectionChanged" BorderThickness="0"
+                      Name="ListViewPlayListAdd" Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Width="220"
+                      ItemContainerStyle="{StaticResource BoxItemStyle}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                <Button Grid.Row="3" Grid.Column="2" Content="Отмена" Height="20" Width="45"
-                        Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0" BorderThickness="0" />
+            <Button Click="Close_OnClick" Grid.Row="3" Grid.Column="2" Content="Отмена" Height="20" Width="45"
+                    Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0" BorderThickness="0" />
 
-            </Grid>
-        </Border>
+        </Grid>
+    </Border>
 </UserControl>
