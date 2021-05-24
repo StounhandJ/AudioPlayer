@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AudioPlayer.Class;
 
 // using DevExpress.Mvvm;
 
@@ -270,14 +271,15 @@ namespace AudioPlayer.ViewModels
                 _playList.StandartPlayList();
             }
 
-            SetMusic(_playList.GetNext());
+            SetMusic(_playList.Next());
             _random = !_random;
             this.OnPropertyChanged("PlayerRandomForeground");
         }
 
         public void SetMusic(Music? music)
         {
-            SourceAudio = music?.source ?? new Uri("");
+            SourceAudio = new Uri("null.mp3", UriKind.Relative);
+            SourceAudio = music?.source ?? new Uri("null.mp3", UriKind.Relative);
             string fileName = SourceAudio.Segments.Length > 0 && SourceAudio.IsFile ? SourceAudio.Segments[SourceAudio.Segments.Length-1].Split('.')[0] : null;
             ImageAudio = music?.sourceImg ?? _noImageAudio;
             NameAudio = music?.name ?? (fileName??_noNameAudio);
@@ -288,11 +290,11 @@ namespace AudioPlayer.ViewModels
             if (_replay)
             {
                 SourceAudio = null;
-                SetMusic(_playList.GetNow());
+                SetMusic(_playList.getNow());
             }
             else if (_playList != null && _playList.IsNextMusic())
             {
-                SetMusic(_playList.GetNext());
+                SetMusic(_playList.Next());
             }
         }
 
@@ -300,7 +302,7 @@ namespace AudioPlayer.ViewModels
         {
             if (_playList != null && _playList.IsNextMusic())
             {
-                SetMusic(_playList.GetNext());
+                SetMusic(_playList.Next());
             }
         }
 
@@ -308,7 +310,7 @@ namespace AudioPlayer.ViewModels
         {
             if (_playList != null && _playList.IsLastMusic())
             {
-                SetMusic(_playList.Getlast());
+                SetMusic(_playList.Last());
             }
         }
         private void update()

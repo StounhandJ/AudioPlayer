@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AudioPlayer.Class;
 using AudioPlayer.Converts;
 using AudioPlayer.ViewModels;
 
@@ -15,17 +16,34 @@ namespace AudioPlayer
     /// </summary>
     public partial class Player : UserControl
     {
-        TimeSpan _position;
-        DispatcherTimer _timer = new DispatcherTimer();
-        DispatcherTimer _timerTwo = new DispatcherTimer();
+        private TimeSpan _position;
+        private DispatcherTimer _timer = new DispatcherTimer();
+        private DispatcherTimer _timerTwo = new DispatcherTimer();
         private PlayerViewModel _playerViewModel = new PlayerViewModel();
         private TimeConverter _timeConverter = new TimeConverter();
 
         public delegate void MusicEvent(object sender, MusicEventArgs e);
+        
+        public delegate void PlayListEvent(object sender, Playlist e);
 
+        /// <summary>
+        /// Event when the track starts playing
+        /// </summary>
         public event MusicEvent MusicStart;
+        
+        /// <summary>
+        /// Event at the end of track playback
+        /// </summary>
         public event MusicEvent MusicEnded;
+        
+        /// <summary>
+        /// Event at the end of track playback
+        /// </summary>
+        public event PlayListEvent PlayListEnded;
 
+        /// <summary>
+        /// Main color the Audio player
+        /// </summary>
         public SolidColorBrush StyleBackground
         {
             get
@@ -59,73 +77,142 @@ namespace AudioPlayer
             SetPlayList(Playlist);
         }
 
+        /// <summary>
+        /// Sets a playlist and plays it back
+        /// </summary>
         public void SetPlayList(Playlist Playlist)
         {
             _playerViewModel.PlayList = Playlist;
-            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.Next());
         }
         
+        /// <summary>
+        /// Set a Music and play it back
+        /// </summary>
         public void SetMusic(Music music)
         {
             _playerViewModel.PlayList = new Playlist(new List<Music>{music});
-            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.Next());
         }
 
+        /// <summary>
+        /// Stop play music
+        /// </summary>
         public void Stop()
         {
             _playerViewModel.StopPlay();
         }
         
+        /// <summary>
+        /// Run play music
+        /// </summary>
         public void Play()
         {
             _playerViewModel.RunPlay();
         }
 
+        /// <summary>
+        /// Set volume music
+        /// </summary>
+        /// <param name="volume">from 0 to 1</param>
         public void SetVolume(int volume)
         {
             Vol2.Value = volume >= 0 && volume <= 1 ? volume : Vol2.Value;
         }
         
+        private double lastVol = -1;
+        /// <summary>
+        /// Mute or unmute
+        /// </summary>
+        public void MuteVolume(bool IsMute)
+        {
+            if (IsMute)
+            {
+                lastVol = Vol2.Value;
+                Vol2.Value = 0;
+            }
+            else
+            {
+                Vol2.Value = lastVol;
+                lastVol = -1;
+            }
+        }
+        
+        /// <summary>
+        /// Is mute install
+        /// </summary>
+        public bool IsMuteVolume()
+        {
+            return lastVol!=-1;
+        }
+        
+        /// <summary>
+        /// Play next music
+        /// </summary>
         public void NextMusic()
         {
             _playerViewModel.NextMusic();
         }
 
+        /// <summary>
+        /// Play last music
+        /// </summary>
         public void LastMusic()
         {
             _playerViewModel.LastMusic();
         }
         
+        /// <summary>
+        /// Enables shuffle playlist
+        /// </summary>
         public void StartRandom()
         {
             _playerViewModel.ChangeRandomPlayList(true);
         }
         
+        /// <summary>
+        /// Disables shuffle playlist
+        /// </summary>
         public void StopRandom()
         {
             _playerViewModel.ChangeRandomPlayList(false);
         }
 
+        /// <summary>
+        /// Enables music replay
+        /// </summary>
         public void StartReplay()
         {
             _playerViewModel.ChangeReplay(true);
         }
         
+        /// <summary>
+        /// Disables music replay
+        /// </summary>
         public void StopReplay()
         {
             _playerViewModel.ChangeReplay(false);
         }
         
+        /// <summary>
+        /// Get number play music
+        /// </summary>
         public int getNowMusicIndex()
         {
             return _playerViewModel.PlayList.getIndex();
         }
         
+        /// <summary>
+        /// Get number play musicc
+        /// </summary>
         public Music getNowMusic()
         {
-            return _playerViewModel.PlayList.GetNow();
+            return _playerViewModel.PlayList.getNow();
         }
         
+        /// <summary>
+        /// Add music to a playlist
+        /// </summary>
         public void AddMusic_PlayList(Music music)
         {
             if (_playerViewModel.PlayList!=null)
@@ -136,40 +223,49 @@ namespace AudioPlayer
             {
                 _playerViewModel.PlayList = new Playlist(new List<Music>{music});
             }
-            _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+            _playerViewModel.SetMusic(_playerViewModel.PlayList.Next());
         }
         
+        /// <summary>
+        /// Delete music from a playlist
+        /// </summary>
         public void RemoveMusic_PlayList(Music music)
         {
             _playerViewModel.PlayList?.Del(music);
         }
         
+        /// <summary>
+        /// Play music under the number (index from scratch)
+        /// </summary>
         public void PickNumberMusic_PlayList(int index)
         {
             if (_playerViewModel.PlayList!=null && _playerViewModel.PlayList.SetIndex(index))
             {
-                _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+                _playerViewModel.SetMusic(_playerViewModel.PlayList.Next());
             }
         }
         
+        /// <summary>
+        /// Play music if in playlist
+        /// </summary>
         public void PickMusic_PlayList(Music music)
         {
             if (_playerViewModel.PlayList!=null && _playerViewModel.PlayList.SetMusic(music))
             {
-                _playerViewModel.SetMusic(_playerViewModel.PlayList.GetNext());
+                _playerViewModel.SetMusic(_playerViewModel.PlayList.Next());
             }
         }
         
         private void Initialize()
         {
-            _timer.Interval = TimeSpan.FromMilliseconds(500);
+            _timer.Interval = TimeSpan.FromMilliseconds(400);
             _timer.Tick += new EventHandler(ticktock);
             _timer.Start();
             this.DataContext = _playerViewModel;
         }
         
 
-        void ticktock(object sender, EventArgs e)
+        private void ticktock(object sender, EventArgs e)
         {
             sliderSeek.Value = media.Position.TotalSeconds;
         }
@@ -223,27 +319,25 @@ namespace AudioPlayer
             _position = media.NaturalDuration.TimeSpan;
             sliderSeek.Minimum = 0;
             sliderSeek.Maximum = _position.TotalSeconds;
-            MusicStart?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
+            MusicStart?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.getNow()));
         }
         
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
         {
-            MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.GetNow()));
-            _playerViewModel.NextMusicAuto();
+            MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.getNow()));
+            if (_playerViewModel.PlayList.IsNextMusic())
+            {
+                _playerViewModel.NextMusicAuto();
+            }
+            else
+            {
+                PlayListEnded?.Invoke(this, _playerViewModel.PlayList);
+            }
         }
-
-        private double lastVol;
+        
         private void Vol_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Vol2.Value>0)
-            {
-                lastVol = Vol2.Value;
-                Vol2.Value = 0;
-            }
-            else if (Vol2.Value==0)
-            {
-                Vol2.Value = lastVol;
-            }
+            this.MuteVolume(!this.IsMuteVolume());
         }
 
         private void moveTopTime(object sender, EventArgs e)
