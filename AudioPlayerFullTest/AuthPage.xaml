@@ -1,0 +1,19 @@
+﻿<Page x:Class="AudioPlayerFullTest.AuthPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:AudioPlayerFullTest"
+      xmlns:controls="clr-namespace:AudioPlayerFullTest.Controls"
+      mc:Ignorable="d"
+      Title="AuthPage" Height="450" Width="300">
+    <Grid ShowGridLines="True">
+        <controls:LoginControl x:Name="LoginControl"
+                               Registration="LoginControl_OnRegistration"
+                               Login="LoginControl_OnLogin"
+                               Skip="LoginControl_OnSkip"/>
+        <controls:RegistrationControl x:Name="RegistrationControl" Visibility="Hidden" IsEnabled="False"
+                                      Login="RegistrationControl_OnLogin"
+                                      Registration="RegistrationControl_OnRegistration"/>
+    </Grid>
+</Page>

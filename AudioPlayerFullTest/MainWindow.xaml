@@ -7,69 +7,9 @@
         xmlns:audioPlayer="clr-namespace:AudioPlayer;assembly=AudioPlayer"
         xmlns:controls="clr-namespace:AudioPlayerFullTest.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="680"
+        Title="MainWindow" Height="550" Width="880"
         MinHeight="300" MinWidth="500">
-    <Window.Resources>
-        <ControlTemplate x:Key="NoMouseOverButtonTemplate"
-                         TargetType="Button">
-            <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </Border>
-        </ControlTemplate>
-        
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Style.Triggers>
-                <Trigger Property="Control.IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Red" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
     <Grid>
-        <Grid Name="MainGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="3*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <controls:PlayListPanel Grid.Row="0" Grid.Column="0" x:Name="PlayListPanel"
-                                    SelectedPlayList="PlayListPanel_OnSelectedPlayList" 
-                                    ChangeClick="PlayListPanel_OnChangeClick"
-                                    DeleteClick="PlayListPanel_OnDeleteClick"/>
-
-            <controls:MusicContainer Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="MusicContainer"
-                                     AllowDrop="True" DragOver="MusicContainer_DragOver" Drop="FileDrop"
-                                     SelectedMusic="PlayListPanel_OnSelectedMusic"
-                                     AddPlayListClick="MusicContainer_OnContextMenuClick" 
-                                     ChangeClick="MusicContainer_OnChangeClick"
-                                     DeleteClick="MusicContainer_OnDeleteClick"/>
-            
-            <Button Grid.Row="1" Grid.Column="0" Click="ButtonAddMusic_OnClick" Margin="0 0 0 5" Content="Добавить аудио"
-                    Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0"
-                    BorderThickness="0 0 2 0" 
-                    Style="{StaticResource ButtonStyle}"/>
-            
-            <audioPlayer:Player Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomPlayer"
-                                MusicStart="CustomPlayer_OnMusicStart" />
-        </Grid>
-        
-        <controls:MenuAddPlaylist x:Name="MenuAddPlaylist" Visibility="Hidden" IsEnabled="False"
-                                  SelectedPlayList="MenuAddPlaylist_OnSelectedPlayList"
-                                  CreatePlayList="MenuAddPlaylist_OnCreatePlayList"
-                                  Close="MenuAddPlaylist_OnClose"/>
-        
-        <controls:MenuEditMusic x:Name="MenuEditMusic" Visibility="Hidden" IsEnabled="False"
-                                ChangeMusic="MenuEditMusic_OnChangeMusic"/>
-        
-        <controls:MenuEditPlayList x:Name="MenuEditPlayList" Visibility="Hidden" IsEnabled="False"
-                                ChangePlayList="MenuEditPlayList_OnChangeMusic"/>
+        <Frame NavigationUIVisibility="Hidden" Name="MainContent"/>
     </Grid>
 </Window>
