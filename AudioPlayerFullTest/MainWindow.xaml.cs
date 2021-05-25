@@ -29,11 +29,12 @@ namespace AudioPlayerFullTest
             InitializeComponent();
             this.PlayListCollections = new ObservableCollection<PlayListCollection>();
             PlayListCollection playList = new PlayListCollection();
+            string dir = Directory.GetCurrentDirectory() + "\\..\\..\\";
             playList.name = "Основной";
             playList.musics = new ObservableCollection<MusicNotifyChanged>();
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 1", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\BTS-Butter.mp3")}});
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 2", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\Konfuz-Ратата.mp3")}});
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 3", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\РукиВверх-Нокаут.mp3")}});
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 1", source = new Uri(dir+"testMusic\\BTS-Butter.mp3")}});
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 2", source = new Uri(dir+"testMusic\\Konfuz-Ратата.mp3")}});
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 3", source = new Uri(dir+"testMusic\\РукиВверх-Нокаут.mp3")}});
             this.PlayListCollections.Add(playList);
 
             this.SelectedPlayList = playList;
@@ -44,8 +45,8 @@ namespace AudioPlayerFullTest
             PlayListCollection playList2 = new PlayListCollection();
             playList2.name = "Второй";
             playList2.musics = new ObservableCollection<MusicNotifyChanged>();
-            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 11", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\BTS-Butter.mp3")}});
-            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 12", source = new Uri(@"C:\Users\rmari\RiderProjects\AudioPlayer\AudioPlayerFullTest\testMusic\Konfuz-Ратата.mp3")}});
+            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 11", source = new Uri(dir+"testMusic\\BTS-Butter.mp3")}});
+            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 12", source = new Uri(dir+"testMusic\\Konfuz-Ратата.mp3")}});
             this.PlayListCollections.Add(playList2);
         }
 
@@ -141,6 +142,32 @@ namespace AudioPlayerFullTest
             if (index==-1 || this.PlayListCollections[index].musics.IndexOf(selectMusicAdd)!=-1) return;
             
             this.PlayListCollections[index].musics.Add(selectMusicAdd);
+        }
+        
+        private MusicNotifyChanged selectMusicChange;
+        private void MusicContainer_OnChangeClick(MusicNotifyChanged music)
+        {
+            this.selectMusicChange = music;
+            this.MenuEditMusic.Visibility = Visibility.Visible;
+            this.MenuEditMusic.IsEnabled = true;
+            this.MainGrid.IsEnabled = false;
+            this.MainGrid.Opacity = 0.5;
+            MenuEditMusic.music = music;
+        }
+        
+        private void MenuEditMusic_OnChangeMusic(string name)
+        {
+            this.MenuEditMusic.Visibility = Visibility.Hidden;
+            this.MenuEditMusic.IsEnabled = false;
+            this.MainGrid.IsEnabled = true;
+            this.MainGrid.Opacity = 1;
+            
+            int index = this.PlayListCollections.IndexOf(this.SelectedPlayList);
+            int indexMusic = this.PlayListCollections[index].musics.IndexOf(this.selectMusicChange);
+            Music music = this.PlayListCollections[index].musics[indexMusic].musics;
+            this.PlayListCollections[index].musics[indexMusic].musics = new Music{name = name, sourceImg = music.sourceImg, source = music.source};
+
+            this.SelectingPlauList(this.PlayingPlayList);
         }
 
         private void ButtonAddMusic_OnClick(object sender, RoutedEventArgs e)

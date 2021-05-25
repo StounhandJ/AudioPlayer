@@ -7,7 +7,9 @@ namespace AudioPlayerFullTest.Controls
 {
     public partial class MusicContainer : UserControl
     {
-        public event Action<MusicNotifyChanged> ContextMenuClick;
+        public event Action<MusicNotifyChanged> AddPlayListClick;
+            
+        public event Action<MusicNotifyChanged> ChangeClick;
         
         public event Action<MusicNotifyChanged> SelectedMusic;
 
@@ -70,7 +72,13 @@ namespace AudioPlayerFullTest.Controls
         
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
-            ContextMenuClick?.Invoke(this.DataListBox.SelectedItems[0] as MusicNotifyChanged);
+            AddPlayListClick?.Invoke(this.DataListBox.SelectedItems[0] as MusicNotifyChanged);
+        }
+        
+        
+        private void MenuItemChange_OnClick(object sender, RoutedEventArgs e)
+        {
+            ChangeClick?.Invoke(this.DataListBox.SelectedItems[0] as MusicNotifyChanged);
         }
 
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

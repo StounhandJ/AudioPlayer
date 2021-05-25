@@ -18,5 +18,10 @@ namespace AudioPlayer.Class
         /// The path to image
         /// </summary>
         public Uri sourceImg { get; set; }
+
+        public void setName(string name)
+        {
+            this.name = name;
+        }
     }
 }

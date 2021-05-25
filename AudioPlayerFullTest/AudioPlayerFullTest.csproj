@@ -53,10 +53,14 @@
         <Compile Include="Controls\MenuAddPlaylist.xaml.cs">
           <DependentUpon>MenuAddPlaylist.xaml</DependentUpon>
         </Compile>
+        <Compile Include="Controls\MenuEditMusic.xaml.cs">
+          <DependentUpon>MenuEditMusic.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Converts\TimeConverter.cs" />
         <Compile Include="Structs\MusicNotifyChanged.cs" />
         <Compile Include="Structs\PlayListCollection.cs" />
         <Page Include="Controls\MenuAddPlaylist.xaml" />
+        <Page Include="Controls\MenuEditMusic.xaml" />
         <Page Include="Controls\MusicContainer.xaml" />
         <Page Include="Controls\PlayListPanel.xaml" />
         <Page Include="MainWindow.xaml">
@@ -104,6 +108,9 @@
     <ItemGroup>
       <Content Include="img\noavatar.jpg" />
       <Content Include="img\play.png" />
+      <Content Include="testMusic\BTS-Butter.mp3" />
+      <Content Include="testMusic\Konfuz-Ратата.mp3" />
+      <Content Include="testMusic\РукиВверх-Нокаут.mp3" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

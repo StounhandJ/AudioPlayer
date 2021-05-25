@@ -19,6 +19,14 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
             </Border>
         </ControlTemplate>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid Name="MainGrid">
@@ -38,11 +46,13 @@
             <controls:MusicContainer Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="MusicContainer"
                                      AllowDrop="True" DragOver="MusicContainer_DragOver" Drop="FileDrop"
                                      SelectedMusic="PlayListPanel_OnSelectedMusic"
-                                     ContextMenuClick="MusicContainer_OnContextMenuClick" />
+                                     AddPlayListClick="MusicContainer_OnContextMenuClick" 
+                                     ChangeClick="MusicContainer_OnChangeClick"/>
             
             <Button Grid.Row="1" Grid.Column="0" Click="ButtonAddMusic_OnClick" Margin="0 0 0 5" Content="Добавить аудио"
                     Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0"
-                    BorderThickness="0 0 2 0" />
+                    BorderThickness="0 0 2 0" 
+                    Style="{StaticResource ButtonStyle}"/>
             
             <audioPlayer:Player Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomPlayer"
                                 MusicStart="CustomPlayer_OnMusicStart" />
@@ -52,5 +62,8 @@
                                   SelectedPlayList="MenuAddPlaylist_OnSelectedPlayList"
                                   CreatePlayList="MenuAddPlaylist_OnCreatePlayList"
                                   Close="MenuAddPlaylist_OnClose"/>
+        
+        <controls:MenuEditMusic x:Name="MenuEditMusic" Visibility="Hidden" IsEnabled="False"
+                                ChangeMusic="MenuEditMusic_OnChangeMusic"/>
     </Grid>
 </Window>
