@@ -56,11 +56,15 @@
         <Compile Include="Controls\MenuEditMusic.xaml.cs">
           <DependentUpon>MenuEditMusic.xaml</DependentUpon>
         </Compile>
+        <Compile Include="Controls\MenuEditPlayList.xaml.cs">
+          <DependentUpon>MenuEditPlayList.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Converts\TimeConverter.cs" />
         <Compile Include="Structs\MusicNotifyChanged.cs" />
         <Compile Include="Structs\PlayListCollection.cs" />
         <Page Include="Controls\MenuAddPlaylist.xaml" />
         <Page Include="Controls\MenuEditMusic.xaml" />
+        <Page Include="Controls\MenuEditPlayList.xaml" />
         <Page Include="Controls\MusicContainer.xaml" />
         <Page Include="Controls\PlayListPanel.xaml" />
         <Page Include="MainWindow.xaml">

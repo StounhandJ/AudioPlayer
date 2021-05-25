@@ -11,6 +11,8 @@ namespace AudioPlayerFullTest.Controls
             
         public event Action<MusicNotifyChanged> ChangeClick;
         
+        public event Action<MusicNotifyChanged> DeleteClick;
+        
         public event Action<MusicNotifyChanged> SelectedMusic;
 
         private PlayListCollection _playList;
@@ -79,6 +81,11 @@ namespace AudioPlayerFullTest.Controls
         private void MenuItemChange_OnClick(object sender, RoutedEventArgs e)
         {
             ChangeClick?.Invoke(this.DataListBox.SelectedItems[0] as MusicNotifyChanged);
+        }
+        
+        private void MenuItemDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            DeleteClick?.Invoke(this.DataListBox.SelectedItems[0] as MusicNotifyChanged);
         }
 
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

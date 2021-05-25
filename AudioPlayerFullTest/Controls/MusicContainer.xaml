@@ -24,6 +24,7 @@
                             <ContextMenu>
                                 <MenuItem Click="MenuItem_OnClick" Header="Добавить в плейлист" />
                                 <MenuItem Click="MenuItemChange_OnClick" Header="Редактировать" />
+                                <MenuItem Click="MenuItemDelete_OnClick" Header="Удалить" />
                             </ContextMenu>
                         </Grid.ContextMenu>
                         <Grid.ColumnDefinitions>

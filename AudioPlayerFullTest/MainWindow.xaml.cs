@@ -38,7 +38,7 @@ namespace AudioPlayerFullTest
             this.PlayListCollections.Add(playList);
 
             this.SelectedPlayList = playList;
-            this.SelectingPlauList(playList);
+            this.SelectingPlayList(playList);
             
             this.CustomPlayer.MuteVolume(true);
             
@@ -59,7 +59,7 @@ namespace AudioPlayerFullTest
             }
             else
             {
-                this.SelectingPlauList(this.SelectedPlayList);
+                this.SelectingPlayList(this.SelectedPlayList);
                 this.CustomPlayer.StopRandom();
                 this.CustomPlayer.PickMusic_PlayList(obj.musics);
             }
@@ -82,7 +82,7 @@ namespace AudioPlayerFullTest
             this.VisibilitySelectedPlayList();
         }
 
-        private void SelectingPlauList(PlayListCollection playList)
+        private void SelectingPlayList(PlayListCollection playList)
         {
             if (this.PlayListCollections.IndexOf(playList)==-1) return;
             
@@ -95,7 +95,7 @@ namespace AudioPlayerFullTest
                 return musicNotify.musics;
             })));
             
-            VisibilitySelectedPlayList();
+            this.VisibilitySelectedPlayList();
         }
 
         private void VisibilitySelectedPlayList()
@@ -155,6 +155,38 @@ namespace AudioPlayerFullTest
             MenuEditMusic.music = music;
         }
         
+        private void MusicContainer_OnDeleteClick(MusicNotifyChanged music)
+        {
+            if (this.SelectedPlayList.musics.Count>1)
+            {
+                int index = this.PlayListCollections.IndexOf(this.SelectedPlayList);
+                this.PlayListCollections[index].musics.Remove(music);
+                this.SelectingPlayList(this.SelectedPlayList);
+            }
+        }
+        
+        private void PlayListPanel_OnChangeClick(PlayListCollection playList)
+        {
+            this.MenuEditPlayList.Visibility = Visibility.Visible;
+            this.MenuEditPlayList.IsEnabled = true;
+            this.MainGrid.IsEnabled = false;
+            this.MainGrid.Opacity = 0.5;
+
+            this.MenuEditPlayList.PlayList = this.SelectedPlayList;
+        }
+        
+        private void PlayListPanel_OnDeleteClick(PlayListCollection playList)
+        {
+            if (this.PlayListCollections.Count>1)
+            {
+                int index = this.PlayListCollections.IndexOf(playList);
+                this.PlayListCollections.Remove(playList);
+                this.SelectedPlayList = this.PlayListCollections[index != 0 ? index - 1 : index];
+                this.VisibilitySelectedPlayList();
+                this.SelectingPlayList(this.SelectedPlayList);
+            }
+        }
+        
         private void MenuEditMusic_OnChangeMusic(string name)
         {
             this.MenuEditMusic.Visibility = Visibility.Hidden;
@@ -167,9 +199,19 @@ namespace AudioPlayerFullTest
             Music music = this.PlayListCollections[index].musics[indexMusic].musics;
             this.PlayListCollections[index].musics[indexMusic].musics = new Music{name = name, sourceImg = music.sourceImg, source = music.source};
 
-            this.SelectingPlauList(this.PlayingPlayList);
+            this.SelectingPlayList(this.PlayingPlayList);
         }
 
+        private void MenuEditPlayList_OnChangeMusic(string name)
+        {
+            this.MenuEditPlayList.Visibility = Visibility.Hidden;
+            this.MenuEditPlayList.IsEnabled = false;
+            this.MainGrid.IsEnabled = true;
+            this.MainGrid.Opacity = 1;
+            
+            int index = this.PlayListCollections.IndexOf(this.SelectedPlayList);
+            this.PlayListCollections[index] = new PlayListCollection{name = name, musics = this.SelectedPlayList.musics};
+        }
         private void ButtonAddMusic_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();

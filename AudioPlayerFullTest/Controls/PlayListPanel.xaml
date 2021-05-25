@@ -19,7 +19,14 @@
                       Name="ListViewPlayList" ItemContainerStyle="{StaticResource BoxItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding name}" />
+                        <TextBlock Text="{Binding name}" >
+                            <TextBlock.ContextMenu>
+                                <ContextMenu>
+                                <MenuItem Click="MenuItemChange_OnClick" Header="Редактировать" />
+                                <MenuItem Click="MenuItemDelete_OnClick" Header="Удалить" />
+                                </ContextMenu>
+                            </TextBlock.ContextMenu>
+                        </TextBlock>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
