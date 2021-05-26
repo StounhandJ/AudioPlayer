@@ -325,7 +325,7 @@ namespace AudioPlayer
         private void Media_OnMediaEnded(object sender, RoutedEventArgs e)
         {
             MusicEnded?.Invoke(this,new MusicEventArgs(_playerViewModel.PlayList.getIndex(),_playerViewModel.PlayList.getNow()));
-            if (_playerViewModel.PlayList.IsNextMusic())
+            if (_playerViewModel.PlayList.IsNextMusic() || _playerViewModel.IsReplay())
             {
                 _playerViewModel.NextMusicAuto();
             }

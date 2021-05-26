@@ -293,6 +293,11 @@ namespace AudioPlayer.ViewModels
             this.OnPropertyChanged("PlayerReplayForeground");
         }
 
+        public bool IsReplay()
+        {
+            return _replay;
+        }
+
         public void ChangeRandomPlayList(bool random)
         {
             if (random==_random) return;
