@@ -58,6 +58,9 @@
             
             <audioPlayer:Player Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomPlayer"
                                 MusicStart="CustomPlayer_OnMusicStart" />
+            <audioPlayer:Player Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomPlayerAd" Visibility="Hidden" IsEnabled="False"
+                                MusicStart="CustomPlayer_OnMusicStart" 
+                                MusicEnded="CustomPlayerAd_OnMusicEnded"/>
         </Grid>
         
         <controls:MenuAddPlaylist x:Name="MenuAddPlaylist" Visibility="Hidden" IsEnabled="False"

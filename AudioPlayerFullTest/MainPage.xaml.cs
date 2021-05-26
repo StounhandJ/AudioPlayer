@@ -14,13 +14,17 @@ namespace AudioPlayerFullTest
 {
     public partial class MainPage : Page
     {
-        public ObservableCollection<PlayListCollection> PlayListCollections;
+        public bool AD;
+        
+        private ObservableCollection<PlayListCollection> PlayListCollections;
 
         private string path_MusicDirectory = Directory.GetCurrentDirectory()+"\\musics";
 
         private PlayListCollection PlayingPlayList;
         
         private PlayListCollection SelectedPlayList;
+        
+        private Music AdMusic = new Music{source = new Uri(Directory.GetCurrentDirectory() + "\\..\\..\\testMusic\\Konfuz-Ратата.mp3"), name = "Реклама"};
 
         public event Action<ObservableCollection<PlayListCollection>> savePlayList;
         public MainPage()
@@ -53,15 +57,51 @@ namespace AudioPlayerFullTest
             
         }
 
+        private int count_music;
+        private bool IsAdd;
         private void CustomPlayer_OnMusicStart(object sender, MusicEventArgs e)
         {
             if (!this.SelectedPlayList.Equals(this.PlayingPlayList)) return;
-            
-            this.MusicContainer.MusicPlay = this.MusicContainer.playList.musics.First((musicNotify) =>
+            if (!IsAdd)
             {
-                return musicNotify.musics.Equals(e.music);
-            });
+                this.MusicContainer.MusicPlay = this.MusicContainer.playList.musics.First((musicNotify) =>
+                {
+                    return musicNotify.musics.Equals(e.music);
+                });
+            }
             savePlayList?.Invoke(this.PlayListCollections);
+            count_music += 1;
+            if (count_music>=5 && this.AD && !IsAdd)
+            {
+                CustomPlayer.Visibility = Visibility.Hidden;
+                CustomPlayer.IsEnabled = false;
+                CustomPlayer.Stop();
+                
+                CustomPlayerAd.Visibility = Visibility.Visible;
+                CustomPlayerAd.IsEnabled = false;
+                CustomPlayerAd.SetMusic(this.AdMusic);
+                CustomPlayerAd.Play();
+
+                IsAdd = true;
+            }
+            
+        }
+        
+        private void CustomPlayerAd_OnMusicEnded(object sender, MusicEventArgs e)
+        {
+            if(IsAdd)
+            {
+                CustomPlayerAd.Visibility = Visibility.Hidden;
+                CustomPlayerAd.IsEnabled = false;
+                CustomPlayerAd.Stop();
+                
+                CustomPlayer.Visibility = Visibility.Visible;
+                CustomPlayer.IsEnabled = true;
+                CustomPlayer.Play();
+
+                IsAdd = false;
+                count_music = 0;
+            }
         }
 
         private void PlayListPanel_OnSelectedPlayList(PlayListCollection obj)
@@ -221,6 +261,9 @@ namespace AudioPlayerFullTest
 
             int index = this.PlayListCollections.IndexOf(this.SelectedPlayList);
             this.PlayListCollections[index].musics.Add(new MusicNotifyChanged{musics = new Music{name = fileName, source = new Uri(filePath)}});
+            
+            this.VisibilitySelectedPlayList();
+            this.SelectingPlayList(this.SelectedPlayList);
         }
 
         private void FileDrop(object sender, DragEventArgs e)

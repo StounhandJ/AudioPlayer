@@ -38,10 +38,12 @@ namespace AudioPlayerFullTest
             MainContent.Content = this.mainPage;
             if (this.profile.HasValue)
             {
+                this.mainPage.AD = false;
                 this.mainPage.setPlayListsCollection(this.profile?.playLists);
             }
             else
             {
+                this.mainPage.AD = true;
                 this.mainPage.setPlayListsCollection(this.authPage.CreateStandartPlayList());
             }
         }

@@ -39,7 +39,7 @@ namespace AudioPlayerFullTest.Controls
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            LoginButton.IsEnabled = LoginTextBox.Text != "" && PasswordTextBox.Text != "" && PasswordReplayTextBox.Text != "";
+            LoginButton.IsEnabled = LoginTextBox.Text != "" && PasswordTextBox.Text != "" && PasswordReplayTextBox.Text != "" && LoginTextBox.Text.Length>5 && PasswordTextBox.Text.Length>5 && PasswordReplayTextBox.Text.Length>5;
         }
     }
 }

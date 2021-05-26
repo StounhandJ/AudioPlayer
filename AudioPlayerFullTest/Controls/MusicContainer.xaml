@@ -29,7 +29,7 @@
                         </Grid.ContextMenu>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="25" />
                         </Grid.ColumnDefinitions>
@@ -38,7 +38,7 @@
                         <Image Grid.Column="0" Visibility="{Binding VisibilityI}" Source="../img/play.png" Width="20"
                                Height="20" Margin="0 5 0 5" />
                         <TextBlock Grid.Column="1" Text="{Binding musics.name}" Margin="10 10 0 0" />
-                        <TextBlock Grid.Column="3" Text="{Binding time}" />
+                        <TextBlock Grid.Column="3" Text="" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
