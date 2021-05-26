@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using AudioPlayer.Class;
 using AudioPlayerFullTest.Structs;
 
 namespace AudioPlayerFullTest
@@ -42,7 +44,7 @@ namespace AudioPlayerFullTest
             int index = this.profiles.FindIndex(p => p.name==login);
             if (index==-1)
             {
-                this.profiles.Add(new Profile{name = login, password = password, playLists = new ObservableCollection<PlayListCollection>()});
+                this.profiles.Add(new Profile{name = login, password = password, playLists = this.CreateStandartPlayList()});
                 this.EndAuth?.Invoke(this.profiles.Last());
                 ManagementSave.saveProfilesJSON(this.profiles);
             }
@@ -68,6 +70,18 @@ namespace AudioPlayerFullTest
         private void LoginControl_OnSkip()
         {
             EndAuth?.Invoke(null);
+        }
+
+        public ObservableCollection<PlayListCollection> CreateStandartPlayList()
+        {
+            PlayListCollection playList = new PlayListCollection();
+            string dir = Directory.GetCurrentDirectory() + "\\..\\..\\";
+            playList.name = "Основной";
+            playList.musics = new ObservableCollection<MusicNotifyChanged>();
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 1", source = new Uri(dir+"testMusic\\BTS-Butter.mp3")}});
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 2", source = new Uri(dir+"testMusic\\Konfuz-Ратата.mp3")}});
+            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 3", source = new Uri(dir+"testMusic\\РукиВверх-Нокаут.mp3")}});
+            return new ObservableCollection<PlayListCollection>{playList};
         }
     }
 }

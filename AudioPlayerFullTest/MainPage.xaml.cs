@@ -15,7 +15,7 @@ namespace AudioPlayerFullTest
     public partial class MainPage : Page
     {
         public ObservableCollection<PlayListCollection> PlayListCollections;
-        
+
         private string path_MusicDirectory = Directory.GetCurrentDirectory()+"\\musics";
 
         private PlayListCollection PlayingPlayList;
@@ -26,27 +26,15 @@ namespace AudioPlayerFullTest
         public MainPage()
         {
             InitializeComponent();
-            this.PlayListCollections = new ObservableCollection<PlayListCollection>();
-            PlayListCollection playList = new PlayListCollection();
-            string dir = Directory.GetCurrentDirectory() + "\\..\\..\\";
-            playList.name = "Основной";
-            playList.musics = new ObservableCollection<MusicNotifyChanged>();
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 1", source = new Uri(dir+"testMusic\\BTS-Butter.mp3")}});
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 2", source = new Uri(dir+"testMusic\\Konfuz-Ратата.mp3")}});
-            playList.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 3", source = new Uri(dir+"testMusic\\РукиВверх-Нокаут.mp3")}});
-            this.PlayListCollections.Add(playList);
 
-            this.SelectedPlayList = playList;
-            this.SelectingPlayList(playList);
-            
             this.CustomPlayer.MuteVolume(true);
-            
-            PlayListCollection playList2 = new PlayListCollection();
-            playList2.name = "Второй";
-            playList2.musics = new ObservableCollection<MusicNotifyChanged>();
-            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 11", source = new Uri(dir+"testMusic\\BTS-Butter.mp3")}});
-            playList2.musics.Add(new MusicNotifyChanged{musics = new Music{name = "Тест 12", source = new Uri(dir+"testMusic\\Konfuz-Ратата.mp3")}});
-            this.PlayListCollections.Add(playList2);
+        }
+
+        public void setPlayListsCollection(ObservableCollection<PlayListCollection> value)
+        {
+            PlayListCollections = value;
+            this.SelectedPlayList = value[0];
+            this.SelectingPlayList(value[0]);
         }
 
         private void PlayListPanel_OnSelectedMusic(MusicNotifyChanged obj)

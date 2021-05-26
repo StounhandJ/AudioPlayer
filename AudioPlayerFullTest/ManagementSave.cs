@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AudioPlayerFullTest.Structs;
+using Newtonsoft.Json;
 
 namespace AudioPlayerFullTest
 {
     public static class ManagementSave
     {
         public static string savePath = Directory.GetCurrentDirectory()+"\\profiles.json";
-        
+
+        private static string g;
         public static async Task saveProfilesJSON(List<Profile> favorites)
         {
-            using (StreamWriter sw = new StreamWriter(savePath, false, System.Text.Encoding.Default))
+            using (StreamWriter sw = new StreamWriter(savePath, false, System.Text.Encoding.UTF8))
             {
-                await sw.WriteAsync(JsonSerializer.Serialize(favorites));
+                await sw.WriteAsync(JsonConvert.SerializeObject(favorites));
             }
         }
 
@@ -26,7 +27,7 @@ namespace AudioPlayerFullTest
                 using (StreamReader fs = new StreamReader(savePath))
                 {
                     string json = fs.ReadToEnd();
-                    return JsonSerializer.Deserialize<List<Profile>>(json);
+                    return JsonConvert.DeserializeObject<List<Profile>>(json);
                 }
             }
             return new List<Profile>();

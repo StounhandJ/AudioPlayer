@@ -57,7 +57,7 @@ namespace AudioPlayerFullTest.Structs
         {
             get
             {
-                return _timeConverter.TimeFormat(Double.Parse(_time));
+                return _time;
             }
             set
             {

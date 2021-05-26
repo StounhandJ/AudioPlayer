@@ -38,7 +38,11 @@ namespace AudioPlayerFullTest
             MainContent.Content = this.mainPage;
             if (this.profile.HasValue)
             {
-                // this.mainPage.PlayListCollections = this.profile?.playLists;
+                this.mainPage.setPlayListsCollection(this.profile?.playLists);
+            }
+            else
+            {
+                this.mainPage.setPlayListsCollection(this.authPage.CreateStandartPlayList());
             }
         }
         
@@ -49,7 +53,7 @@ namespace AudioPlayerFullTest
                 List<Profile> profiles = ManagementSave.loadProfilesJSON();
                 int index = profiles.FindIndex(p=>p.name==this.profile?.name && p.password==this.profile?.password);
                 if (index == -1) return;
-                profiles[index] = new Profile{name = this.profile?.name, password = this.profile?.password, playLists = playListCollections};
+                profiles[index] = new Profile(this.profile?.name, this.profile?.password, playListCollections);
                 ManagementSave.saveProfilesJSON(profiles);
             }
         }
