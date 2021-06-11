@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using AudioPlayer;
@@ -299,6 +300,24 @@ namespace AudioPlayerFullTest
                 e.Effects = DragDropEffects.None; 
                 e.Handled = true;
             }            
+        }
+
+        private void MusicContainer_OnSearch(string name)
+        {
+            var reg = new Regex(name);
+            var musics = new ObservableCollection<MusicNotifyChanged>();
+            foreach (var musicNotifyChanged in this.SelectedPlayList.musics)
+            {
+                if (reg.IsMatch(musicNotifyChanged.musics.name))
+                {
+                    musics.Add(musicNotifyChanged);
+                }
+            }
+            this.MusicContainer.playList = new PlayListCollection{name = "Поиск", musics = musics};
+            this.MusicContainer.MusicPlay = this.MusicContainer.playList.musics.FirstOrDefault((musicNotify) =>
+            {
+                return musicNotify.musics.Equals(CustomPlayer.getNowMusic());
+            });
         }
     }
 }

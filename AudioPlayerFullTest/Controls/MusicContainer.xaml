@@ -13,7 +13,12 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ListBox SelectionChanged="ListBox_OnSelectionChanged" Name="DataListBox"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Name="SearchTextBox" VerticalAlignment="Top" KeyDown="SearchTextBox_OnKeyDown"/>
+        <ListBox Grid.Row="1" SelectionChanged="ListBox_OnSelectionChanged" Name="DataListBox"
                  ItemContainerStyle="{StaticResource BoxItemStyle}" BorderThickness="0"
                  HorizontalContentAlignment="Stretch" VerticalAlignment="Top" Margin="0"
                  Padding="0">

@@ -49,7 +49,8 @@
                                      SelectedMusic="PlayListPanel_OnSelectedMusic"
                                      AddPlayListClick="MusicContainer_OnContextMenuClick" 
                                      ChangeClick="MusicContainer_OnChangeClick"
-                                     DeleteClick="MusicContainer_OnDeleteClick"/>
+                                     DeleteClick="MusicContainer_OnDeleteClick"
+                                     Search="MusicContainer_OnSearch"/>
             
             <Button Grid.Row="1" Grid.Column="0" Click="ButtonAddMusic_OnClick" Margin="0 0 0 5" Content="Добавить аудио"
                     Template="{StaticResource NoMouseOverButtonTemplate}" Background="#E0E0E0"

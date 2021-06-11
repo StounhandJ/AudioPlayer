@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using AudioPlayerFullTest.Structs;
 
 namespace AudioPlayerFullTest.Controls
@@ -14,6 +15,8 @@ namespace AudioPlayerFullTest.Controls
         public event Action<MusicNotifyChanged> DeleteClick;
         
         public event Action<MusicNotifyChanged> SelectedMusic;
+
+        public event Action<string> Search; 
 
         private PlayListCollection _playList;
         public PlayListCollection playList
@@ -104,6 +107,14 @@ namespace AudioPlayerFullTest.Controls
             foreach (MusicNotifyChanged music in DataListBox.Items)
             {
                 music.noPlay();
+            }
+        }
+
+        private void SearchTextBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key==Key.Enter)
+            {
+                Search?.Invoke(SearchTextBox.Text);
             }
         }
     }
