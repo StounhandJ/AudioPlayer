@@ -115,7 +115,7 @@ namespace AudioPlayer
         /// Set volume music
         /// </summary>
         /// <param name="volume">from 0 to 1</param>
-        public void SetVolume(int volume)
+        public void SetVolume(double volume)
         {
             VolumeSlider.Value = volume >= 0 && volume <= 1 ? volume : VolumeSlider.Value;
         }

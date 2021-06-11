@@ -24,6 +24,14 @@ namespace AudioPlayer.Class
         }
 
         /// <summary>
+        /// Return music list
+        /// </summary>
+        public List<Music> getMusics()
+        {
+            return list;
+        }
+
+        /// <summary>
         /// Index of the playing music
         /// </summary>
         public int getIndex()
