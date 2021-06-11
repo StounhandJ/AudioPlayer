@@ -84,6 +84,7 @@ Uri sourceImg // The path to image
 ```c#
 string name; // Playlist name
 
+getMusics() // Return music list
 Add(Music) // Add music to the playlist
 Del(Music) // Delete music to the playlist
 SetIndex(int):bool // Sets the playing music by index
